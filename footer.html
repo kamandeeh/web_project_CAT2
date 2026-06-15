@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+    .site-footer {
+        background: #0D0D0D;
+        border-top: 2px solid #EF0107;
+        padding: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .footer-logo {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 1.4rem;
+        letter-spacing: 2px;
+        color: #F5F5F5;
+        text-decoration: none;
+    }
+    .footer-logo span { color: #EF0107; }
+
+    .footer-copy {
+        font-size: 0.78rem;
+        color: #555;
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    .footer-links a {
+        color: #555;
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #EF0107; }
+
+    @media (max-width: 576px) {
+        .site-footer { flex-direction: column; align-items: center; text-align: center; }
+    }
+</style>
+<body>
+
+
+<footer class="site-footer">
+    <a class="footer-logo" href="#">THE CANNON <span>POST</span></a>
+    <p class="footer-copy">© 2026 The Cannon Post · Not affiliated with Arsenal FC.</p>
+    <ul class="footer-links">
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Instagram</a></li>
+    </ul>
+</footer>
+</body>
+</html>
