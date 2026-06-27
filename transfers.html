@@ -1,485 +1,493 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Transfer Talk – The Cannon Post</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Transfer Talk</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-    :root {
-      --red: #E01020;
-      --red-hover: #c00d1c;
-      --black: #0a0a0a;
-      --surface: #141414;
-      --surface2: #1e1e1e;
-      --border: #2a2a2a;
-      --white: #ffffff;
-      --muted: #888;
-      --text: #ddd;
-      --green: #22c55e;
-      --amber: #f59e0b;
-      --blue: #3b82f6;
-    }
+:root {
+  --red: #e01020;
+  --green: #22c55e;
+  --amber: #f59e0b;
+  --bg: #0f0f0f;
+  --card: #181818;
+  --card2: #202020;
+  --border: #2e2e2e;
+  --muted: #777;
+  --text: #ccc;
+}
 
-    body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; min-height: 100vh; }
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+}
 
-    #navbar-placeholder { min-height: 60px; background: #0a0a0a; border-bottom: 1px solid var(--border); }
+header {
+  background: #0a0a0a;
+  padding: 40px 24px 36px;
+  text-align: center;
+  border-bottom: 3px solid var(--red);
+}
 
-    .page-hero {
-      background: linear-gradient(135deg, #0a0a0a 0%, #0a0a1a 60%, #0a0a0a 100%);
-      border-bottom: 3px solid var(--red);
-      padding: 56px 24px 40px;
-      text-align: center;
-    }
-    .eyebrow {
-      display: inline-block; background: var(--red); color: #fff;
-      font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600;
-      letter-spacing: 3px; text-transform: uppercase; padding: 4px 14px; margin-bottom: 16px;
-    }
-    .page-hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(36px,6vw,64px); font-weight: 700; letter-spacing: -1px; }
-    .page-hero h1 span { color: var(--red); }
-    .page-hero p { margin-top: 12px; color: var(--muted); font-size: 15px; max-width: 480px; margin-inline: auto; }
+.eyebrow {
+  display: inline-block;
+  background: var(--red);
+  font-family: 'Inter', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
 
-    /* Ticker */
-    .ticker-wrap {
-      background: var(--red);
-      overflow: hidden; white-space: nowrap;
-      padding: 10px 0;
-      position: relative;
-    }
-    .ticker-label {
-      position: absolute; left: 0; top: 0; bottom: 0;
-      background: #000; color: #fff;
-      font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
-      padding: 0 16px;
-      display: flex; align-items: center;
-      z-index: 2;
-    }
-    .ticker-inner {
-      display: inline-block;
-      animation: ticker 28s linear infinite;
-      padding-left: 180px;
-    }
-    .ticker-inner span {
-      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
-      color: #fff; margin-right: 60px;
-    }
-    .ticker-inner span::before { content: '⚡ '; }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 8vw, 80px);
+  letter-spacing: 3px;
+  line-height: 1;
+}
 
-    .main-content {
-      max-width: 1100px; margin: 0 auto;
-      padding: 40px 24px 80px;
-      display: grid;
-      grid-template-columns: 1fr 320px;
-      gap: 32px;
-    }
-    @media(max-width:900px){ .main-content{ grid-template-columns:1fr; } }
+header h1 span {
+  color: var(--red);
+}
 
-    .section-label {
-      font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 600;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--red); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
-    }
-    .section-label::after { content:''; flex:1; height:1px; background: var(--border); }
+header p {
+  color: #666;
+  margin-top: 10px;
+  font-size: 15px;
+}
 
-    /* Filter bar */
-    .filter-bar { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
-    .filter-btn {
-      background: var(--surface); border: 1px solid var(--border);
-      color: var(--muted); font-family: 'Oswald', sans-serif;
-      font-size: 12px; font-weight: 600; padding: 7px 18px;
-      cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
-      transition: all .2s;
-    }
-    .filter-btn.active, .filter-btn:hover { background: var(--red); border-color: var(--red); color: #fff; }
+/* Ticker */
+.ticker {
+  background: #000;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 9px 0;
+}
 
-    /* Transfer rumour cards */
-    .rumour-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 4px solid transparent;
-      padding: 20px 22px;
-      margin-bottom: 14px;
-      transition: border-left-color .2s;
-    }
-    .rumour-card.hot { border-left-color: var(--red); }
-    .rumour-card.done { border-left-color: var(--green); }
-    .rumour-card.cold { border-left-color: var(--muted); }
+.ticker-inner {
+  display: inline-block;
+  animation: scroll 28s linear infinite;
+}
 
-    .rc-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 14px; }
-    .player-badge {
-      width: 52px; height: 52px; flex-shrink: 0;
-      background: var(--surface2); border: 2px solid var(--border);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700;
-      color: var(--red);
-    }
-    .rc-info { flex: 1; }
-    .rc-name { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; margin-bottom: 3px; }
-    .rc-sub { font-size: 12px; color: var(--muted); display: flex; gap: 12px; flex-wrap: wrap; }
-    .rc-sub .tag-pill {
-      background: var(--surface2); border: 1px solid var(--border);
-      font-size: 10px; font-weight: 700; letter-spacing: 1px;
-      text-transform: uppercase; padding: 2px 8px;
-    }
-    .rc-sub .tag-pill.hot { border-color: var(--red); color: var(--red); }
-    .rc-sub .tag-pill.done { border-color: var(--green); color: var(--green); }
-    .rc-sub .tag-pill.cool { border-color: var(--blue); color: var(--blue); }
-    .rc-sub .tag-pill.cold { border-color: var(--muted); color: var(--muted); }
+.ticker-inner span {
+  margin-right: 56px;
+  color: var(--muted);
+}
 
-    .rc-status { text-align: right; }
-    .likelihood-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .likelihood-val { font-family: 'Oswald', sans-serif; font-size: 22px; font-weight: 700; color: var(--red); }
+.ticker-inner span::before {
+  content: '— ';
+  color: var(--red);
+}
 
-    .rc-body { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 14px; }
+@keyframes scroll {
+  to { transform: translateX(-50%); }
+}
 
-    .rc-details { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 14px; }
-    .rc-detail { font-size: 12px; color: var(--muted); }
-    .rc-detail strong { color: var(--white); display: block; font-size: 13px; }
+/* Layout */
+main {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 24px 60px;
+  display: grid;
+  grid-template-columns: 1fr 270px;
+  gap: 28px;
+}
 
-    .fan-vote { border-top: 1px solid var(--border); padding-top: 14px; }
-    .fan-vote-label { font-size: 12px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
-    .vote-buttons { display: flex; gap: 10px; }
-    .vote-btn {
-      flex: 1; background: var(--surface2); border: 1px solid var(--border);
-      color: var(--text); font-family: 'Oswald', sans-serif;
-      font-size: 13px; font-weight: 600; padding: 10px;
-      cursor: pointer; text-align: center; letter-spacing: 1px;
-      transition: all .2s; text-transform: uppercase;
-    }
-    .vote-btn.yes:hover, .vote-btn.yes.voted { background: rgba(34,197,94,.15); border-color: var(--green); color: var(--green); }
-    .vote-btn.no:hover, .vote-btn.no.voted { background: rgba(224,16,32,.1); border-color: var(--red); color: var(--red); }
-    .vote-result { display: none; font-size: 12px; color: var(--muted); margin-top: 8px; }
-    .vote-result.visible { display: block; }
+@media (max-width: 740px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
 
-    /* Done deals */
-    .done-deal {
-      background: var(--surface);
-      border: 1px solid rgba(34,197,94,0.3);
-      padding: 16px 20px;
-      margin-bottom: 12px;
-      display: flex; align-items: center; gap: 14px;
-    }
-    .done-badge {
-      background: var(--green); color: #000;
-      font-family: 'Oswald', sans-serif; font-size: 10px; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase; padding: 4px 10px; flex-shrink: 0;
-    }
-    .done-info .player { font-family: 'Oswald', sans-serif; font-size: 16px; font-weight: 700; }
-    .done-info .detail { font-size: 12px; color: var(--muted); }
-    .done-fee { margin-left: auto; font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; color: var(--green); }
+.section-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
 
-    /* SIDEBAR */
-    .sidebar { display: flex; flex-direction: column; gap: 24px; }
-    .sidebar-card { background: var(--surface); border: 1px solid var(--border); padding: 20px; }
-    .sidebar-card h3 {
-      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
-    }
-    .sidebar-card h3 span { color: var(--red); }
+/* Filters */
+.filters {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
 
-    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
-    .stat-row:last-child { border-bottom: none; }
-    .stat-label { font-size: 13px; color: var(--muted); }
-    .stat-value { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; }
-    .stat-value.red { color: var(--red); }
-    .stat-value.green { color: var(--green); }
+.filters button {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all .15s;
+}
 
-    .source-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-    .source-item:last-child { border-bottom: none; }
-    .source-logo { width: 28px; height: 28px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
-    .source-name { font-size: 13px; font-weight: 600; }
-    .source-date { font-size: 11px; color: var(--muted); }
-    .source-rel { margin-left: auto; font-size: 11px; color: var(--red); font-weight: 600; }
+.filters button.active,
+.filters button:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
 
-    .budget-bar { margin-bottom: 14px; }
-    .budget-bar .header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px; }
-    .budget-bar .label { color: var(--muted); }
-    .budget-bar .val { color: var(--white); font-weight: 600; }
-    .bar-track { height: 6px; background: var(--border); }
-    .bar-fill { height: 100%; background: var(--red); }
-    .bar-fill.green { background: var(--green); }
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 14px;
+  transition: border-color .2s;
+}
 
-    #footer-placeholder { min-height: 80px; background: #0a0a0a; border-top: 1px solid var(--border); }
-  </style>
+.card:hover {
+  border-color: #444;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
+
+.card .meta {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.tag.hot {
+  background: rgba(224, 16, 32, .12);
+  color: #f87171;
+  border: 1px solid rgba(224, 16, 32, .25);
+}
+
+.tag.cold {
+  background: rgba(147, 197, 253, .08);
+  color: #93c5fd;
+  border: 1px solid rgba(147, 197, 253, .2);
+}
+
+.card p {
+  color: var(--text);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+.card-details {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: var(--card2);
+  border-radius: 6px;
+}
+
+.detail-item .label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+  margin-bottom: 3px;
+}
+
+.detail-item .val {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Vote */
+.vote {
+  display: flex;
+  gap: 8px;
+}
+
+.vote button {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+}
+
+.vote button.yes:hover,
+.vote button.yes.voted {
+  background: rgba(34, 197, 94, .1);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.vote button.no:hover,
+.vote button.no.voted {
+  background: rgba(224, 16, 32, .08);
+  border-color: var(--red);
+  color: #f87171;
+}
+
+.vote-result {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.scard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.scard h3 {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.srow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.srow:last-child {
+  border-bottom: none;
+}
+
+.srow .l {
+  color: var(--muted);
+}
+
+.srow .v {
+  font-weight: 600;
+}
+
+.v.red   { color: #f87171; }
+.v.green { color: var(--green); }
+.v.amber { color: var(--amber); }
+
+/* Budget bars */
+.bar-item {
+  margin-bottom: 12px;
+}
+
+.bar-item:last-child {
+  margin-bottom: 0;
+}
+
+.bar-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+.bar-header .bl {
+  color: var(--muted);
+}
+
+.track {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--red);
+}
+
+.fill.green {
+  background: var(--green);
+}
+
+/* Done deals */
+.deal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.deal:last-child {
+  border-bottom: none;
+}
+
+.deal .name {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.deal .from {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 2px;
+}
+
+.deal .fee {
+  color: var(--green);
+  font-weight: 600;
+  font-size: 13px;
+}
+</style>
 </head>
 <body>
 
- <div id="navbar"></div>
+<header>
+  <div class="eyebrow">Summer 2025</div>
+  <h1>TRANSFER <span>TALK</span></h1>
+  <p>The latest links, rumours, and done deals — filtered for Gooners, by Gooners.</p>
+</header>
 
-  <div class="page-hero">
-    <div class="eyebrow">Summer 2025</div>
-    <h1>TRANSFER <span>TALK</span></h1>
-    <p>The latest links, rumours, and done deals — filtered for Gooners, by Gooners.</p>
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>£65m bid submitted for Zubimendi</span>
+    <span>Martinelli set for new 5-year deal</span>
+    <span>Gyökeres leads Arteta's striker shortlist</span>
+    <span>Ben White rejects Saudi move</span>
+    <span>Wirtz monitored but Bayern lead the race</span>
+    <span>£65m bid submitted for Zubimendi</span>
+    <span>Martinelli set for new 5-year deal</span>
+    <span>Gyökeres leads Arteta's striker shortlist</span>
+    <span>Ben White rejects Saudi move</span>
+    <span>Wirtz monitored but Bayern lead the race</span>
   </div>
+</div>
 
-  <!-- Ticker -->
-  <div class="ticker-wrap">
-    <span class="ticker-label">BREAKING</span>
-    <div class="ticker-inner">
-      <span>Arsenal submit £65m bid for Zubimendi</span>
-      <span>Martinelli set to sign new 5-year deal</span>
-      <span>Gyökeres topping Arteta's striker wishlist</span>
-      <span>White rejects Saudi move, commits to Arsenal</span>
-      <span>Arsenal confirm interest in Wirtz</span>
-      <span>Arsenal submit £65m bid for Zubimendi</span>
-      <span>Martinelli set to sign new 5-year deal</span>
-      <span>Gyökeres topping Arteta's striker wishlist</span>
-      <span>White rejects Saudi move, commits to Arsenal</span>
-      <span>Arsenal confirm interest in Wirtz</span>
+<main>
+  <div>
+    <div class="section-title">Rumours</div>
+    <div class="filters">
+      <button class="active" onclick="filter('all', this)">All</button>
+      <button onclick="filter('hot', this)">🔥 Hot</button>
+      <button onclick="filter('cold', this)">❄️ Cold</button>
     </div>
+    <div id="cards"></div>
   </div>
 
-  <div class="main-content">
-
-    <!-- LEFT -->
-    <div class="left-col">
-
-      <div class="section-label">Rumours</div>
-      <div class="filter-bar">
-        <button class="filter-btn active" onclick="filterRumours('all', this)">All</button>
-        <button class="filter-btn" onclick="filterRumours('hot', this)">🔥 Hot</button>
-        <button class="filter-btn" onclick="filterRumours('done', this)">✅ Done</button>
-        <button class="filter-btn" onclick="filterRumours('cold', this)">❄️ Cold</button>
-      </div>
-
-      <div id="rumours-list">
-
-        <!-- Zubimendi -->
-        <div class="rumour-card hot" data-status="hot">
-          <div class="rc-top">
-            <div class="player-badge">MZ</div>
-            <div class="rc-info">
-              <div class="rc-name">Martín Zubimendi</div>
-              <div class="rc-sub">
-                <span>Real Sociedad · Spain</span>
-                <span>Defensive Midfield</span>
-                <span class="tag-pill hot">🔥 Hot</span>
-              </div>
-            </div>
-            <div class="rc-status">
-              <div class="likelihood-label">Likelihood</div>
-              <div class="likelihood-val">78%</div>
-            </div>
-          </div>
-          <p class="rc-body">Arsenal have submitted a formal £65m bid for the Spain international after missing out on him last summer. Zubimendi is understood to be open to a move to North London, with personal terms largely agreed. The ball is now in Sociedad's court.</p>
-          <div class="rc-details">
-            <div class="rc-detail"><strong>£65m</strong>Fee</div>
-            <div class="rc-detail"><strong>5 Years</strong>Contract</div>
-            <div class="rc-detail"><strong>Romano</strong>Source</div>
-            <div class="rc-detail"><strong>27 May 2025</strong>Updated</div>
-          </div>
-          <div class="fan-vote">
-            <div class="fan-vote-label">Do you want this signing?</div>
-            <div class="vote-buttons">
-              <button class="vote-btn yes" onclick="vote(this, 'yes', 'v1')">✓ Sign Him</button>
-              <button class="vote-btn no" onclick="vote(this, 'no', 'v1')">✗ Pass</button>
-            </div>
-            <div class="vote-result" id="v1-result"></div>
-          </div>
-        </div>
-
-        <!-- Gyökeres -->
-        <div class="rumour-card hot" data-status="hot">
-          <div class="rc-top">
-            <div class="player-badge">VG</div>
-            <div class="rc-info">
-              <div class="rc-name">Viktor Gyökeres</div>
-              <div class="rc-sub">
-                <span>Sporting CP · Sweden</span>
-                <span>Centre Forward</span>
-                <span class="tag-pill hot">🔥 Hot</span>
-              </div>
-            </div>
-            <div class="rc-status">
-              <div class="likelihood-label">Likelihood</div>
-              <div class="likelihood-val">61%</div>
-            </div>
-          </div>
-          <p class="rc-body">Arteta is a long-time admirer of the Swedish striker who has been in historic form in Lisbon. Arsenal are willing to trigger his release clause, but face competition from Man City and PSG. A decision is expected before the end of June.</p>
-          <div class="rc-details">
-            <div class="rc-detail"><strong>£85m</strong>Clause</div>
-            <div class="rc-detail"><strong>4 Years</strong>Contract</div>
-            <div class="rc-detail"><strong>Sky Sports</strong>Source</div>
-            <div class="rc-detail"><strong>25 May 2025</strong>Updated</div>
-          </div>
-          <div class="fan-vote">
-            <div class="fan-vote-label">Do you want this signing?</div>
-            <div class="vote-buttons">
-              <button class="vote-btn yes" onclick="vote(this, 'yes', 'v2')">✓ Sign Him</button>
-              <button class="vote-btn no" onclick="vote(this, 'no', 'v2')">✗ Pass</button>
-            </div>
-            <div class="vote-result" id="v2-result"></div>
-          </div>
-        </div>
-
-        <!-- Wirtz -->
-        <div class="rumour-card" data-status="cold">
-          <div class="rc-top">
-            <div class="player-badge">FW</div>
-            <div class="rc-info">
-              <div class="rc-name">Florian Wirtz</div>
-              <div class="rc-sub">
-                <span>Bayer Leverkusen · Germany</span>
-                <span>Attacking Midfield</span>
-                <span class="tag-pill cold">❄️ Cold</span>
-              </div>
-            </div>
-            <div class="rc-status">
-              <div class="likelihood-label">Likelihood</div>
-              <div class="likelihood-val" style="color:var(--muted)">22%</div>
-            </div>
-          </div>
-          <p class="rc-body">Reports from Germany link Arsenal with an ambitious move, though Leverkusen are demanding north of £120m and Wirtz himself is yet to declare a preference. Sources close to the player suggest Bayern Munich remain frontrunners. Arsenal are monitoring the situation.</p>
-          <div class="rc-details">
-            <div class="rc-detail"><strong>£120m+</strong>Valuation</div>
-            <div class="rc-detail"><strong>Unknown</strong>Contract</div>
-            <div class="rc-detail"><strong>Kicker</strong>Source</div>
-            <div class="rc-detail"><strong>20 May 2025</strong>Updated</div>
-          </div>
-          <div class="fan-vote">
-            <div class="fan-vote-label">Do you want this signing?</div>
-            <div class="vote-buttons">
-              <button class="vote-btn yes" onclick="vote(this, 'yes', 'v3')">✓ Sign Him</button>
-              <button class="vote-btn no" onclick="vote(this, 'no', 'v3')">✗ Pass</button>
-            </div>
-            <div class="vote-result" id="v3-result"></div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- Done Deals -->
-      <div class="section-label" style="margin-top:32px;">Done Deals</div>
-      <div class="done-deal">
-        <span class="done-badge">✓ Done</span>
-        <div class="done-info">
-          <div class="player">David Raya</div>
-          <div class="detail">Brentford → Arsenal · GK · Permanent</div>
-        </div>
-        <div class="done-fee">£27m</div>
-      </div>
-      <div class="done-deal">
-        <span class="done-badge">✓ Done</span>
-        <div class="done-info">
-          <div class="player">Kai Havertz</div>
-          <div class="detail">Chelsea → Arsenal · CM/CF · Permanent</div>
-        </div>
-        <div class="done-fee">£65m</div>
-      </div>
-      <div class="done-deal">
-        <span class="done-badge">✓ Done</span>
-        <div class="done-info">
-          <div class="player">Declan Rice</div>
-          <div class="detail">West Ham → Arsenal · DM · Permanent</div>
-        </div>
-        <div class="done-fee">£105m</div>
-      </div>
+  <aside class="sidebar">
+    <div class="scard">
+      <h3>Transfer Budget</h3>
+      <div class="bar-item"><div class="bar-header"><span class="bl">Total</span><span>£180m</span></div><div class="track"><div class="fill green" style="width:100%"></div></div></div>
+      <div class="bar-item"><div class="bar-header"><span class="bl">Committed</span><span>£65m</span></div><div class="track"><div class="fill" style="width:36%"></div></div></div>
+      <div class="bar-item"><div class="bar-header"><span class="bl">Remaining</span><span>£115m</span></div><div class="track"><div class="fill green" style="width:64%"></div></div></div>
     </div>
+    <div class="scard">
+      <h3>Priority Positions</h3>
+      <div class="srow"><span class="l">Striker</span><span class="v red">Urgent</span></div>
+      <div class="srow"><span class="l">DM Backup</span><span class="v red">Urgent</span></div>
+      <div class="srow"><span class="l">RB Depth</span><span class="v amber">Medium</span></div>
+      <div class="srow"><span class="l">AM Cover</span><span class="v" style="color:var(--muted)">Low</span></div>
+    </div>
+    <div class="scard">
+      <h3>Done Deals</h3>
+      <div class="deal"><div><div class="name">David Raya</div><div class="from">Brentford → Arsenal · GK</div></div><span class="fee">£27m</span></div>
+      <div class="deal"><div><div class="name">Kai Havertz</div><div class="from">Chelsea → Arsenal · CM</div></div><span class="fee">£65m</span></div>
+      <div class="deal"><div><div class="name">Declan Rice</div><div class="from">West Ham → Arsenal · DM</div></div><span class="fee">£105m</span></div>
+    </div>
+  </aside>
+</main>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
+<script>
+  const players = [
+    { id:'v1', status:'hot', name:'Martín Zubimendi', club:'Real Sociedad', pos:'Defensive Mid', fee:'£65m', source:'Romano', updated:'27 May', blurb:'Arsenal have submitted a formal £65m bid. Personal terms are largely agreed and a move looks very likely.', yes:847, no:112 },
+    { id:'v2', status:'hot', name:'Viktor Gyökeres', club:'Sporting CP', pos:'Centre Forward', fee:'£85m', source:'Sky Sports', updated:'25 May', blurb:"Arteta's top striker target. Arsenal will trigger his release clause but face competition from Man City and PSG.", yes:1023, no:204 },
+    { id:'v3', status:'cold', name:'Florian Wirtz', club:'Bayer Leverkusen', pos:'Attacking Mid', fee:'£120m+', source:'Kicker', updated:'20 May', blurb:'Linked from Germany but Leverkusen demand a huge fee and Bayern Munich remain clear frontrunners.', yes:688, no:291 },
+  ];
 
-      <div class="sidebar-card">
-        <h3>Transfer <span>Budget</span></h3>
-        <div class="budget-bar">
-          <div class="header"><span class="label">Estimated Budget</span><span class="val">£180m</span></div>
-          <div class="bar-track"><div class="bar-fill green" style="width:100%"></div></div>
+  function cardHTML(p) {
+    const total = p.yes + p.no;
+    const pct = Math.round(p.yes / total * 100);
+    return `
+      <div class="card">
+        <div class="card-header">
+          <div><h2>${p.name}</h2><div class="meta">${p.club} · ${p.pos}</div></div>
+          <span class="tag ${p.status}">${p.status === 'hot' ? '🔥 Hot' : '❄️ Cold'}</span>
         </div>
-        <div class="budget-bar">
-          <div class="header"><span class="label">Committed</span><span class="val">£65m</span></div>
-          <div class="bar-track"><div class="bar-fill" style="width:36%"></div></div>
+        <p>${p.blurb}</p>
+        <div class="card-details">
+          <div class="detail-item"><div class="label">Fee</div><div class="val">${p.fee}</div></div>
+          <div class="detail-item"><div class="label">Source</div><div class="val">${p.source}</div></div>
+          <div class="detail-item"><div class="label">Updated</div><div class="val">${p.updated}</div></div>
         </div>
-        <div class="budget-bar">
-          <div class="header"><span class="label">Remaining</span><span class="val">£115m</span></div>
-          <div class="bar-track"><div class="bar-fill green" style="width:64%"></div></div>
+        <div class="vote">
+          <button class="yes" onclick="vote('${p.id}','yes',this)">✓ Sign Him</button>
+          <button class="no"  onclick="vote('${p.id}','no',this)">✗ Pass</button>
         </div>
-        <div style="margin-top:16px;">
-          <div class="stat-row"><span class="stat-label">Rumours Active</span><span class="stat-value red">3</span></div>
-          <div class="stat-row"><span class="stat-label">Done Deals</span><span class="stat-value green">3</span></div>
-          <div class="stat-row"><span class="stat-label">Sell-on Expected</span><span class="stat-value">£30m+</span></div>
-        </div>
-      </div>
+        <div class="vote-result" id="${p.id}">${pct}% of fans want this (${total.toLocaleString()} votes)</div>
+      </div>`;
+  }
 
-      <div class="sidebar-card">
-        <h3>Source <span>Tracker</span></h3>
-        <div class="source-item">
-          <div class="source-logo">FA</div>
-          <div>
-            <div class="source-name">Fabrizio Romano</div>
-            <div class="source-date">27 May 2025</div>
-          </div>
-          <div class="source-rel">🔥 Hot</div>
-        </div>
-        <div class="source-item">
-          <div class="source-logo">SS</div>
-          <div>
-            <div class="source-name">Sky Sports</div>
-            <div class="source-date">25 May 2025</div>
-          </div>
-          <div class="source-rel">🔥 Hot</div>
-        </div>
-        <div class="source-item">
-          <div class="source-logo">KK</div>
-          <div>
-            <div class="source-name">Kicker (DE)</div>
-            <div class="source-date">20 May 2025</div>
-          </div>
-          <div class="source-rel">❄️ Cold</div>
-        </div>
-      </div>
+  function render(list) { document.getElementById('cards').innerHTML = list.map(cardHTML).join(''); }
 
-      <div class="sidebar-card">
-        <h3>Priority <span>Targets</span></h3>
-        <div class="stat-row"><span class="stat-label">Striker</span><span class="stat-value red">Urgent</span></div>
-        <div class="stat-row"><span class="stat-label">DM Backup</span><span class="stat-value red">Urgent</span></div>
-        <div class="stat-row"><span class="stat-label">RB Depth</span><span class="stat-value" style="color:var(--amber)">Medium</span></div>
-        <div class="stat-row"><span class="stat-label">AM Cover</span><span class="stat-value" style="color:var(--muted)">Low</span></div>
-      </div>
+  function filter(status, btn) {
+    document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render(status === 'all' ? players : players.filter(p => p.status === status));
+  }
 
-    </aside>
-  </div>
+  function vote(id, choice, btn) {
+    const p = players.find(p => p.id === id);
+    p[choice]++;
+    const total = p.yes + p.no;
+    const pct = Math.round(p.yes / total * 100);
+    btn.closest('.vote').querySelectorAll('button').forEach(b => b.classList.remove('voted'));
+    btn.classList.add('voted');
+    document.getElementById(id).textContent = `${pct}% of fans want this signing (${total.toLocaleString()} votes)`;
+  }
 
-  <div id="footer"></div>
-
-  <script>
-    function filterRumours(status, btn) {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.querySelectorAll('.rumour-card').forEach(card => {
-        if (status === 'all' || card.dataset.status === status) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
-
-    const voteData = {
-      v1: { yes: 847, no: 112 },
-      v2: { yes: 1023, no: 204 },
-      v3: { yes: 688, no: 291 },
-    };
-
-    function vote(btn, choice, id) {
-      const card = btn.closest('.fan-vote');
-      card.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted'));
-      btn.classList.add('voted');
-      voteData[id][choice]++;
-      const total = voteData[id].yes + voteData[id].no;
-      const yesPct = Math.round((voteData[id].yes / total) * 100);
-      const result = document.getElementById(id + '-result');
-      result.textContent = `${yesPct}% of fans want this signing (${total.toLocaleString()} votes)`;
-      result.classList.add('visible');
-    }
-  </script>
+  render(players);
+</script>
 </body>
 </html>
