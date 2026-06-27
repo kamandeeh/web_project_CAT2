@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tactical Analysis – The Cannon Post</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #E01020;
+      --red-hover: #c00d1c;
+      --black: #0a0a0a;
+      --surface: #141414;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --white: #ffffff;
+      --muted: #888;
+      --text: #ddd;
+      --pitch: #1a3a1a;
+      --pitch-line: rgba(255,255,255,0.25);
+    }
+
+    body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; min-height: 100vh; }
+
+    #navbar-placeholder { min-height: 60px; background: #0a0a0a; border-bottom: 1px solid var(--border); }
+
+    .page-hero {
+      background: linear-gradient(135deg, #0a0a0a 0%, #0a1a0a 60%, #0a0a0a 100%);
+      border-bottom: 3px solid var(--red);
+      padding: 56px 24px 40px;
+      text-align: center;
+    }
+    .eyebrow {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      margin-bottom: 16px;
+    }
+    .page-hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(36px,6vw,64px); font-weight: 700; letter-spacing: -1px; }
+    .page-hero h1 span { color: var(--red); }
+    .page-hero p { margin-top: 12px; color: var(--muted); font-size: 15px; max-width: 480px; margin-inline: auto; }
+
+    .main-content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 32px;
+    }
+    @media(max-width:900px){ .main-content{ grid-template-columns:1fr; } }
+
+    .section-label {
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content:''; flex:1; height:1px; background: var(--border); }
+
+    /* ── VIDEO SECTION ── */
+    .video-section { margin-bottom: 36px; }
+
+    .video-featured {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--red);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .video-embed-wrap {
+      position: relative; width: 100%; padding-bottom: 56.25%; background: #000;
+    }
+    .video-embed-wrap iframe, .video-embed-wrap video {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block;
+    }
+    .video-info { padding: 18px 20px; }
+    .video-tag {
+      display: inline-block; background: var(--red); color: #fff;
+      font-size: 10px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; padding: 3px 10px; margin-bottom: 10px;
+    }
+    .video-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+    .video-meta { font-size: 12px; color: var(--muted); }
+
+    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media(max-width:600px){ .video-grid{ grid-template-columns:1fr; } }
+
+    .video-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 3px solid transparent; overflow: hidden;
+      transition: border-left-color .2s;
+    }
+    .video-card:hover { border-left-color: var(--red); }
+    .video-thumb { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; overflow: hidden; }
+    .video-thumb iframe, .video-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
+    .video-thumb .play-overlay {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.35); transition: background .2s; pointer-events: none;
+    }
+    .video-card:hover .play-overlay { background: rgba(224,16,32,0.2); }
+    .play-btn { width: 44px; height: 44px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+    .play-btn svg { width: 18px; height: 18px; fill: #fff; margin-left: 3px; }
+    .video-card-info { padding: 12px 14px; }
+    .video-card-tag { font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
+    .video-card-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+    .video-card-meta { font-size: 11px; color: var(--muted); }
+
+    .upload-panel {
+      background: var(--surface2); border: 2px dashed var(--border);
+      padding: 24px; text-align: center; margin-top: 16px; transition: border-color .2s;
+    }
+    .upload-panel:hover { border-color: var(--red); }
+    .upload-icon { font-size: 28px; margin-bottom: 10px; }
+    .upload-panel p { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+    .upload-panel p strong { color: var(--white); }
+    .upload-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .btn-upload {
+      background: var(--red); color: #fff; border: none;
+      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; cursor: pointer; transition: background .2s;
+    }
+    .btn-upload:hover { background: var(--red-hover); }
+    .btn-upload-yt {
+      background: transparent; color: var(--white); border: 1px solid var(--border);
+      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+      letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; cursor: pointer; transition: all .2s;
+    }
+    .btn-upload-yt:hover { border-color: var(--red); color: var(--red); }
+
+    .yt-modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.85); z-index: 1000;
+      align-items: center; justify-content: center;
+    }
+    .yt-modal-overlay.open { display: flex; }
+    .yt-modal {
+      background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--red);
+      padding: 28px; width: 100%; max-width: 460px; margin: 16px;
+    }
+    .yt-modal h3 { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .yt-modal p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+    .yt-modal input, .yt-modal select {
+      width: 100%; background: var(--surface2); border: 1px solid var(--border);
+      color: var(--white); font-family: 'Inter', sans-serif; font-size: 14px;
+      padding: 11px 14px; outline: none; margin-bottom: 12px; transition: border-color .2s;
+    }
+    .yt-modal input:focus, .yt-modal select:focus { border-color: var(--red); }
+    .yt-modal select option { background: var(--surface2); }
+    .yt-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
+    .btn-cancel {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
+      padding: 9px 20px; cursor: pointer; letter-spacing: 1px;
+    }
+    .btn-cancel:hover { border-color: var(--muted); color: var(--white); }
+    #file-upload-input { display: none; }
+
+    /* ── ARTICLE CARDS ── */
+    .article-featured {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--red);
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+    .article-featured-img {
+      width: 100%;
+      height: 220px;
+      background: var(--pitch);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Football pitch */
+    .pitch-svg { width: 100%; height: 100%; }
+
+    .article-body { padding: 24px; }
+    .article-tag {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      margin-bottom: 12px;
+    }
+    .article-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .article-title a { color: var(--white); text-decoration: none; transition: color .2s; }
+    .article-title a:hover { color: var(--red); }
+    .article-excerpt { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 16px; }
+    .article-meta { display: flex; align-items: center; gap: 12px; }
+    .author-avatar {
+      width: 32px; height: 32px; background: var(--red); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .author-info .name { font-size: 13px; font-weight: 600; }
+    .author-info .date { font-size: 11px; color: var(--muted); }
+    .read-time { margin-left: auto; font-size: 11px; color: var(--muted); }
+
+    /* Article list */
+    .article-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+    .article-list-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent;
+      padding: 18px 20px;
+      display: flex; gap: 16px;
+      transition: border-left-color .2s;
+      cursor: pointer;
+    }
+    .article-list-card:hover { border-left-color: var(--red); }
+    .alc-num {
+      font-family: 'Oswald', sans-serif;
+      font-size: 32px; font-weight: 700;
+      color: var(--border); line-height: 1; flex-shrink: 0; width: 36px;
+    }
+    .alc-content { flex: 1; }
+    .alc-tag { font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+    .alc-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 6px; line-height: 1.2; }
+    .alc-meta { font-size: 11px; color: var(--muted); }
+
+    /* ── FORMATION VIEWER ── */
+    .formation-viewer {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--red);
+      padding: 24px;
+      margin-bottom: 28px;
+    }
+    .formation-viewer h2 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    .formation-viewer .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
+
+    .formation-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+    .ftab {
+      background: var(--surface2); border: 1px solid var(--border);
+      color: var(--muted); font-family: 'Oswald', sans-serif;
+      font-size: 13px; font-weight: 600; padding: 7px 16px;
+      cursor: pointer; letter-spacing: 1px; transition: all .2s;
+    }
+    .ftab.active, .ftab:hover { background: var(--red); border-color: var(--red); color: #fff; }
+
+    .pitch-container {
+      background: var(--pitch);
+      border: 2px solid rgba(255,255,255,.1);
+      position: relative;
+      width: 100%;
+      padding-bottom: 130%;
+      overflow: hidden;
+    }
+    .pitch-lines {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .player-dot {
+      position: absolute;
+      width: 44px; height: 44px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+    }
+    .player-dot .dot {
+      width: 36px; height: 36px;
+      background: var(--red);
+      border: 2px solid #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
+      color: #fff; margin: 4px;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .player-dot:hover .dot { transform: scale(1.15); box-shadow: 0 0 12px var(--red); }
+    .player-dot .pname {
+      position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
+      font-size: 9px; font-weight: 600; white-space: nowrap;
+      background: rgba(0,0,0,.8); padding: 1px 5px; color: #fff;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 20px;
+    }
+    .sidebar-card h3 {
+      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 1px;
+      margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+    }
+    .sidebar-card h3 span { color: var(--red); }
+
+    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
+    .stat-row:last-child { border-bottom: none; }
+    .stat-label { font-size: 13px; color: var(--muted); }
+    .stat-value { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; }
+    .stat-value.red { color: var(--red); }
+
+    .heatmap-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+    }
+    .hm-cell {
+      aspect-ratio: 1; border-radius: 2px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; color: rgba(255,255,255,.7);
+    }
+
+    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    .tag {
+      background: var(--surface2); border: 1px solid var(--border);
+      font-size: 12px; color: var(--muted); padding: 5px 12px;
+      cursor: pointer; transition: all .2s;
+    }
+    .tag:hover, .tag.active { border-color: var(--red); color: var(--red); }
+
+    #footer-placeholder { min-height: 80px; background: #0a0a0a; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+ <div id="navbar"></div>
+
+  <div class="page-hero">
+    <div class="eyebrow">In Depth</div>
+    <h1>TACTICAL <span>ANALYSIS</span></h1>
+    <p>Breaking down how Arsenal play, press, and dominate. Deep dives for the thinking Gooner.</p>
+  </div>
+
+  <div class="main-content">
+
+    <!-- LEFT -->
+    <div class="left-col">
+
+      <div class="section-label">Featured Analysis</div>
+
+      <div class="article-featured">
+        <div class="article-featured-img">
+          <!-- Mini pitch SVG -->
+          <svg class="pitch-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="260" fill="#1a3a1a"/>
+            <!-- Stripes -->
+            <rect x="0" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
+            <rect x="100" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
+            <rect x="200" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
+            <rect x="300" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
+            <!-- Pitch lines -->
+            <rect x="20" y="20" width="360" height="220" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <line x1="200" y1="20" x2="200" y2="240" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <circle cx="200" cy="130" r="30" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <circle cx="200" cy="130" r="3" fill="rgba(255,255,255,0.4)"/>
+            <!-- Penalty areas -->
+            <rect x="20" y="70" width="80" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <rect x="300" y="70" width="80" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <!-- Players (4-3-3) - red team -->
+            <g fill="#E01020" stroke="#fff" stroke-width="1.5">
+              <circle cx="50" cy="130" r="10"/>
+              <circle cx="90" cy="70" r="10"/>
+              <circle cx="90" cy="105" r="10"/>
+              <circle cx="90" cy="155" r="10"/>
+              <circle cx="90" cy="190" r="10"/>
+              <circle cx="140" cy="90" r="10"/>
+              <circle cx="140" cy="130" r="10"/>
+              <circle cx="140" cy="170" r="10"/>
+              <circle cx="195" cy="80" r="10"/>
+              <circle cx="195" cy="130" r="10"/>
+              <circle cx="195" cy="180" r="10"/>
+            </g>
+            <!-- Arrow: press trigger -->
+            <path d="M210,130 Q260,100 300,110" fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+            <path d="M210,80 Q250,60 300,90" fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3"/>
+            <defs>
+              <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L6,3 L0,6 Z" fill="#E01020"/>
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        <div class="article-body">
+          <span class="article-tag">Press Trigger</span>
+          <div class="article-title"><a href="#">How Arteta's High Press Suffocated Everton's Build-Up</a></div>
+          <p class="article-excerpt">Arsenal's relentless press in the first half left Everton unable to play out from the back. We break down the triggers, the traps, and why the 4-3-3 shape is the engine of everything Arteta is building.</p>
+          <div class="article-meta">
+            <div class="author-avatar">TC</div>
+            <div class="author-info">
+              <div class="name">The Cannon Post</div>
+              <div class="date">26 May 2025</div>
+            </div>
+            <span class="read-time">8 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Formation Viewer -->
+      <div class="section-label">Formation Board</div>
+      <div class="formation-viewer">
+        <h2>Arsenal Starting XI</h2>
+        <p class="subtitle">Click a formation to see how the team sets up</p>
+        <div class="formation-tabs">
+          <button class="ftab active" onclick="setFormation('4-3-3', this)">4-3-3</button>
+          <button class="ftab" onclick="setFormation('4-2-3-1', this)">4-2-3-1</button>
+          <button class="ftab" onclick="setFormation('3-4-3', this)">3-4-3</button>
+        </div>
+        <div class="pitch-container" id="pitch"></div>
+      </div>
+
+      <!-- Article list -->
+      <div class="section-label">More Analysis</div>
+      <div class="article-list">
+        <div class="article-list-card">
+          <div class="alc-num">01</div>
+          <div class="alc-content">
+            <div class="alc-tag">Set Pieces</div>
+            <div class="alc-title">Arsenal's Corner Routines Are Winning Them Points</div>
+            <div class="alc-meta">Tom Hayes · 23 May 2025 · 6 min read</div>
+          </div>
+        </div>
+        <div class="article-list-card">
+          <div class="alc-num">02</div>
+          <div class="alc-content">
+            <div class="alc-tag">Midfield</div>
+            <div class="alc-title">Why Ødegaard Drops Deep: The Role Arteta Built for the Captain</div>
+            <div class="alc-meta">The Cannon Post · 20 May 2025 · 10 min read</div>
+          </div>
+        </div>
+        <div class="article-list-card">
+          <div class="alc-num">03</div>
+          <div class="alc-content">
+            <div class="alc-tag">Defending</div>
+            <div class="alc-title">Saliba & Gabriel: The Best CB Partnership in the League?</div>
+            <div class="alc-meta">Marcus O. · 17 May 2025 · 7 min read</div>
+          </div>
+        </div>
+        <div class="article-list-card">
+          <div class="alc-num">04</div>
+          <div class="alc-content">
+            <div class="alc-tag">Transitions</div>
+            <div class="alc-title">Counter-Press After Losing the Ball: Arsenal's Hidden Superpower</div>
+            <div class="alc-meta">The Cannon Post · 12 May 2025 · 9 min read</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <div class="sidebar-card">
+        <h3>Season <span>Stats</span></h3>
+        <div class="stat-row"><span class="stat-label">Goals Scored</span><span class="stat-value red">78</span></div>
+        <div class="stat-row"><span class="stat-label">Goals Conceded</span><span class="stat-value">28</span></div>
+        <div class="stat-row"><span class="stat-label">Avg Possession</span><span class="stat-value red">62%</span></div>
+        <div class="stat-row"><span class="stat-label">PPDA (Press)</span><span class="stat-value red">7.4</span></div>
+        <div class="stat-row"><span class="stat-label">xG For</span><span class="stat-value">71.3</span></div>
+        <div class="stat-row"><span class="stat-label">xG Against</span><span class="stat-value">24.1</span></div>
+        <div class="stat-row"><span class="stat-label">High Press Wins</span><span class="stat-value red">318</span></div>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>Attack <span>Zones</span></h3>
+        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Where Arsenal create from this season</p>
+        <div class="heatmap-grid">
+          <div class="hm-cell" style="background:rgba(224,16,32,0.15)">L</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.25)">C</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.6)">R</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.2)">L</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.9)">C</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.45)">R</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.1)">L</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.15)">C</div>
+          <div class="hm-cell" style="background:rgba(224,16,32,0.1)">R</div>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:10px;">Saka's right flank dominates chance creation</p>
+      </div>
+
+      <div class="sidebar-card">
+        <h3>Browse <span>Topics</span></h3>
+        <div class="tag-cloud">
+          <span class="tag active">Press</span>
+          <span class="tag">Set Pieces</span>
+          <span class="tag">Midfield</span>
+          <span class="tag">Defending</span>
+          <span class="tag">Transitions</span>
+          <span class="tag">Wide Play</span>
+          <span class="tag">Arteta</span>
+          <span class="tag">UCL</span>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <div id="footer"></div>
+
+  <script>
+    const formations = {
+      '4-3-3': [
+        { name:'Raya', x:50, y:88 },
+        { name:'White', x:20, y:72 },
+        { name:'Saliba', x:37, y:72 },
+        { name:'Gabriel', x:63, y:72 },
+        { name:'Zinch.', x:80, y:72 },
+        { name:'Havertz', x:25, y:52 },
+        { name:'Ødeg.', x:50, y:47 },
+        { name:'Rice', x:75, y:52 },
+        { name:'Saka', x:82, y:28 },
+        { name:'Jesus', x:50, y:22 },
+        { name:'Mart.', x:18, y:28 },
+      ],
+      '4-2-3-1': [
+        { name:'Raya', x:50, y:88 },
+        { name:'White', x:20, y:72 },
+        { name:'Saliba', x:37, y:72 },
+        { name:'Gabriel', x:63, y:72 },
+        { name:'Zinch.', x:80, y:72 },
+        { name:'Rice', x:35, y:57 },
+        { name:'Havertz', x:65, y:57 },
+        { name:'Saka', x:80, y:38 },
+        { name:'Ødeg.', x:50, y:35 },
+        { name:'Mart.', x:20, y:38 },
+        { name:'Jesus', x:50, y:18 },
+      ],
+      '3-4-3': [
+        { name:'Raya', x:50, y:88 },
+        { name:'Timber', x:25, y:72 },
+        { name:'Saliba', x:50, y:72 },
+        { name:'Gabriel', x:75, y:72 },
+        { name:'Cala.', x:15, y:52 },
+        { name:'Rice', x:38, y:52 },
+        { name:'Ødeg.', x:62, y:52 },
+        { name:'Zinch.', x:85, y:52 },
+        { name:'Saka', x:80, y:28 },
+        { name:'Jesus', x:50, y:22 },
+        { name:'Mart.', x:20, y:28 },
+      ],
+    };
+
+    function setFormation(key, btn) {
+      document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPitch(key);
+    }
+
+    function renderPitch(key) {
+      const container = document.getElementById('pitch');
+      const players = formations[key];
+      const w = container.offsetWidth || 300;
+      const h = w * 1.3;
+
+      container.innerHTML = `
+        <svg class="pitch-lines" viewBox="0 0 100 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Stripes -->
+          <rect x="0" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+          <rect x="20" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+          <rect x="40" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+          <rect x="60" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+          <rect x="80" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+          <!-- Outer -->
+          <rect x="5" y="5" width="90" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+          <!-- Halfway -->
+          <line x1="5" y1="65" x2="95" y2="65" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+          <circle cx="50" cy="65" r="12" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
+          <!-- Penalty areas -->
+          <rect x="22" y="5" width="56" height="22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width=".8"/>
+          <rect x="22" y="103" width="56" height="22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width=".8"/>
+          <!-- Goals -->
+          <rect x="38" y="2" width="24" height="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width=".8"/>
+          <rect x="38" y="123" width="24" height="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width=".8"/>
+        </svg>
+      `;
+
+      players.forEach(p => {
+        const dot = document.createElement('div');
+        dot.className = 'player-dot';
+        dot.style.left = p.x + '%';
+        dot.style.top = p.y + '%';
+        dot.innerHTML = `<div class="dot">${p.name.substring(0,3).toUpperCase()}</div><span class="pname">${p.name}</span>`;
+        container.appendChild(dot);
+      });
+    }
+
+    renderPitch('4-3-3');
+
+    // Tag filter
+    document.querySelectorAll('.tag').forEach(t => {
+      t.addEventListener('click', () => {
+        document.querySelectorAll('.tag').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
