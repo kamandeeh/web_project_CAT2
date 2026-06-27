@@ -355,14 +355,14 @@
     }
 
     renderReactions(seedReactions);
-
+// like button for reactions
     function likeReaction(btn) { btn.style.color = '#E01020'; }
-
+// when a comment is added it updates
     function updateCount() {
       const ta = document.getElementById('reaction-input');
       document.getElementById('char-count').textContent = (500 - ta.value.length) + ' left';
     }
-
+//add reaction
     function postReaction() {
       const ta = document.getElementById('reaction-input');
       const text = ta.value.trim();
@@ -372,7 +372,7 @@
       ta.value = '';
       updateCount();
     }
-
+// updates countdown
     function updateCountdown() {
       const target = new Date('2025-06-03T20:00:00+01:00').getTime();
       const diff = target - Date.now();
