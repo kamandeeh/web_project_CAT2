@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Character encoding -->
+    <meta charset="UTF-8">
+
+    <!-- Responsive page -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Page title -->
+    <title>Community - The Cannon Post</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./community.css">
+</head>
+
+<body>
+<div id="navbar"></div>
+<!-- Header -->
+<header>
+    <a href="./index.html">
+        THE CANNON <span>POST</span>
+    </a>
+</header>
+
+<!-- Hero section -->
+<section class="hero">
+    <h1>Community</h1>
+    <p>Join Arsenal fans from around the world.</p>
+</section>
+
+<!-- Create Post -->
+<section class="post-box">
+
+    <h2>Create a Post</h2>
+
+    <textarea
+        id="postInput"
+        placeholder="Share your thoughts about Arsenal..."
+        maxlength="200"></textarea>
+
+    <button onclick="addPost()">
+        Post
+    </button>
+
+</section>
+
+<!-- Posts -->
+<section class="posts">
+
+    <h2>Recent Posts</h2>
+
+    <div id="postList">
+
+        <div class="post">
+            <h3>NorthLondonRed</h3>
+            <p>What a performance from Saka today! COYG! ❤️</p>
+            <button onclick="like(this)">👍 Like</button>
+        </div>
+
+        <div class="post">
+            <h3>GunnerForever</h3>
+            <p>Who should Arsenal sign this summer?</p>
+            <button onclick="like(this)">👍 Like</button>
+        </div>
+
+        <div class="post">
+            <h3>EmiratesFan</h3>
+            <p>Can't wait for the next Champions League match.</p>
+            <button onclick="like(this)">👍 Like</button>
+        </div>
+
+    </div>
+
+</section>
+
+<div id="footer"></div>
+
+<script>
+
+// Add a new post
+function addPost(){
+
+    const input = document.getElementById("postInput");
+    const text = input.value.trim();
+
+    if(text === ""){
+        alert("Write something first.");
+        return;
+    }
+
+    const posts = document.getElementById("postList");
+
+    posts.innerHTML =
+    `
+    <div class="post">
+        <h3>You</h3>
+        <p>${text}</p>
+        <button onclick="like(this)">👍 Like</button>
+    </div>
+    `
+    + posts.innerHTML;
+
+    input.value = "";
+
+}
+
+// Like button
+function like(button){
+
+    button.innerHTML = "Liked";
+
+}
+
+</script>
+
+</body>
+</html>
