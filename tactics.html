@@ -4,35 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Tactical Analysis – The Cannon Post</title>
+
+  <!--
+    FONTS
+    We load two fonts from Google Fonts:
+    - Oswald  → used for headings, titles, navbar, labels
+    - Inter   → used for body text and paragraphs
+  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    :root {
-      --red: #E01020;
-      --red-hover: #c00d1c;
-      --black: #0a0a0a;
-      --surface: #141414;
-      --surface2: #1e1e1e;
-      --border: #2a2a2a;
-      --white: #ffffff;
-      --muted: #888;
-      --text: #ddd;
-      --pitch: #1a3a1a;
-      --pitch-line: rgba(255,255,255,0.25);
+  <style>
+
+    /* =============================================
+       RESET
+       Removes default browser spacing so every
+       element starts with zero margin and padding.
+       box-sizing: border-box makes width/padding
+       easier to work with.
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
-    body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; min-height: 100vh; }
 
-    #navbar-placeholder { min-height: 60px; background: #0a0a0a; border-bottom: 1px solid var(--border); }
+    /* =============================================
+       COLOUR VARIABLES
+       Instead of typing the same colour code
+       everywhere, we store them here as variables.
+       To change the red, just update --red once.
+    ============================================= */
+    :root {
+      --red:      #E01020;   /* Arsenal red */
+      --red-dark: #c00d1c;   /* darker red for hover states */
+      --black:    #0a0a0a;   /* page background */
+      --surface:  #141414;   /* card background */
+      --surface2: #1e1e1e;   /* slightly lighter card / input background */
+      --border:   #2a2a2a;   /* subtle border colour */
+      --white:    #ffffff;
+      --muted:    #888888;   /* grey text for secondary info */
+      --text:     #dddddd;   /* main body text colour */
+      --pitch:    #1a3a1a;   /* football pitch green */
+    }
 
+
+    /* =============================================
+       BASE STYLES
+       Sets the default font, background colour,
+       and text colour for the whole page.
+    ============================================= */
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+    }
+
+
+    /* =============================================
+       NAVBAR
+       The navbar HTML lives in a separate file
+       and gets injected into <div id="navbar">.
+       IMPORTANT: All navbar text/links must use
+       font-family: 'Oswald', sans-serif
+       Oswald is already loaded above so no extra
+       import is needed in the navbar file.
+    ============================================= */
+    #navbar {
+      min-height: 60px;
+      background: #0a0a0a;
+      border-bottom: 1px solid var(--border);
+      font-family: 'Oswald', sans-serif;
+    }
+
+
+    /* =============================================
+       PAGE HERO
+       The big banner section at the top of the page
+       with the page title and description.
+    ============================================= */
     .page-hero {
       background: linear-gradient(135deg, #0a0a0a 0%, #0a1a0a 60%, #0a0a0a 100%);
       border-bottom: 3px solid var(--red);
       padding: 56px 24px 40px;
       text-align: center;
     }
+
+    /* Small red label above the main title */
     .eyebrow {
       display: inline-block;
       background: var(--red);
@@ -45,129 +105,449 @@
       padding: 4px 14px;
       margin-bottom: 16px;
     }
-    .page-hero h1 { font-family: 'Oswald', sans-serif; font-size: clamp(36px,6vw,64px); font-weight: 700; letter-spacing: -1px; }
-    .page-hero h1 span { color: var(--red); }
-    .page-hero p { margin-top: 12px; color: var(--muted); font-size: 15px; max-width: 480px; margin-inline: auto; }
 
+    /* Main page heading */
+    .page-hero h1 {
+      font-family: 'Oswald', sans-serif;
+      /* clamp() makes the font size responsive:
+         min 36px, preferred 6vw, max 64px */
+      font-size: clamp(36px, 6vw, 64px);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+
+    /* The word "ANALYSIS" in red */
+    .page-hero h1 span {
+      color: var(--red);
+    }
+
+    /* Subtitle paragraph below the heading */
+    .page-hero p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      max-width: 480px;
+      margin-inline: auto; /* centres the paragraph */
+    }
+
+
+    /* =============================================
+       MAIN LAYOUT
+       Two-column grid: wide left column + narrow sidebar.
+       On screens smaller than 900px it stacks into
+       one column (mobile friendly).
+    ============================================= */
     .main-content {
       max-width: 1100px;
       margin: 0 auto;
       padding: 40px 24px 80px;
       display: grid;
-      grid-template-columns: 1fr 320px;
+      grid-template-columns: 1fr 320px; /* left takes remaining space, sidebar is 320px */
       gap: 32px;
     }
-    @media(max-width:900px){ .main-content{ grid-template-columns:1fr; } }
 
+    /* Stack to single column on small screens */
+    @media (max-width: 900px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+    /* =============================================
+       SECTION LABEL
+       The small red uppercase label with a line
+       that appears before each section, e.g.
+       "── FEATURED ANALYSIS ────────────"
+    ============================================= */
     .section-label {
       font-family: 'Oswald', sans-serif;
-      font-size: 11px; font-weight: 600;
-      letter-spacing: 3px; text-transform: uppercase;
-      color: var(--red); margin-bottom: 16px;
-      display: flex; align-items: center; gap: 10px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .section-label::after { content:''; flex:1; height:1px; background: var(--border); }
 
-    /* ── VIDEO SECTION ── */
-    .video-section { margin-bottom: 36px; }
+    /* The horizontal line after the label text */
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
 
+
+    /* =============================================
+       VIDEO SECTION
+       Holds the featured video + video grid below it
+       + the upload panel at the bottom.
+    ============================================= */
+    .video-section {
+      margin-bottom: 36px;
+    }
+
+    /* The large featured video card at the top */
     .video-featured {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-top: 3px solid var(--red);
+      border-top: 3px solid var(--red); /* red accent line on top */
       margin-bottom: 16px;
       overflow: hidden;
     }
+
+    /* 16:9 responsive video wrapper
+       padding-bottom: 56.25% = 9/16 = 16:9 ratio
+       The iframe/video inside uses position:absolute
+       to fill this space completely. */
     .video-embed-wrap {
-      position: relative; width: 100%; padding-bottom: 56.25%; background: #000;
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #000;
     }
-    .video-embed-wrap iframe, .video-embed-wrap video {
-      position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block;
+
+    .video-embed-wrap iframe,
+    .video-embed-wrap video {
+      position: absolute;
+      inset: 0;        /* shorthand for top/right/bottom/left: 0 */
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
     }
-    .video-info { padding: 18px 20px; }
+
+    /* Text info below the featured video */
+    .video-info {
+      padding: 18px 20px;
+    }
+
+    /* Small red category tag above video title */
     .video-tag {
-      display: inline-block; background: var(--red); color: #fff;
-      font-size: 10px; font-weight: 700; letter-spacing: 2px;
-      text-transform: uppercase; padding: 3px 10px; margin-bottom: 10px;
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      margin-bottom: 10px;
     }
-    .video-title { font-family: 'Oswald', sans-serif; font-size: 20px; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
-    .video-meta { font-size: 12px; color: var(--muted); }
 
-    .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-    @media(max-width:600px){ .video-grid{ grid-template-columns:1fr; } }
+    .video-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
 
+    .video-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    /* Two-column grid for smaller video cards below the featured one */
+    .video-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* Stack video grid to 1 column on very small screens */
+    @media (max-width: 600px) {
+      .video-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Individual smaller video card */
     .video-card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-left: 3px solid transparent; overflow: hidden;
-      transition: border-left-color .2s;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid transparent; /* becomes red on hover */
+      overflow: hidden;
+      transition: border-left-color 0.2s;
     }
-    .video-card:hover { border-left-color: var(--red); }
-    .video-thumb { position: relative; width: 100%; padding-bottom: 56.25%; background: #000; overflow: hidden; }
-    .video-thumb iframe, .video-thumb video { position: absolute; inset: 0; width: 100%; height: 100%; border: none; display: block; }
+
+    .video-card:hover {
+      border-left-color: var(--red);
+    }
+
+    /* 16:9 thumbnail wrapper (same trick as featured video) */
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .video-thumb iframe,
+    .video-thumb video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* Dark overlay with play button on top of the thumbnail */
     .video-thumb .play-overlay {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.35); transition: background .2s; pointer-events: none;
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.35);
+      transition: background 0.2s;
+      pointer-events: none; /* clicks pass through to the video */
     }
-    .video-card:hover .play-overlay { background: rgba(224,16,32,0.2); }
-    .play-btn { width: 44px; height: 44px; background: var(--red); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-    .play-btn svg { width: 18px; height: 18px; fill: #fff; margin-left: 3px; }
-    .video-card-info { padding: 12px 14px; }
-    .video-card-tag { font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 5px; }
-    .video-card-title { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
-    .video-card-meta { font-size: 11px; color: var(--muted); }
 
+    .video-card:hover .play-overlay {
+      background: rgba(224, 16, 32, 0.2);
+    }
+
+    /* Red circular play button */
+    .play-btn {
+      width: 44px;
+      height: 44px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #fff;
+      margin-left: 3px; /* nudges the triangle slightly right to look centred */
+    }
+
+    /* Text below the small video thumbnail */
+    .video-card-info {
+      padding: 12px 14px;
+    }
+
+    .video-card-tag {
+      font-size: 10px;
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .video-card-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+
+    .video-card-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+
+    /* =============================================
+       UPLOAD PANEL
+       The dashed box where users can add a video
+       by uploading a file or pasting a YouTube link.
+    ============================================= */
     .upload-panel {
-      background: var(--surface2); border: 2px dashed var(--border);
-      padding: 24px; text-align: center; margin-top: 16px; transition: border-color .2s;
+      background: var(--surface2);
+      border: 2px dashed var(--border);
+      padding: 24px;
+      text-align: center;
+      margin-top: 16px;
+      transition: border-color 0.2s;
     }
-    .upload-panel:hover { border-color: var(--red); }
-    .upload-icon { font-size: 28px; margin-bottom: 10px; }
-    .upload-panel p { font-size: 13px; color: var(--muted); margin-bottom: 14px; }
-    .upload-panel p strong { color: var(--white); }
-    .upload-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+    .upload-panel:hover {
+      border-color: var(--red);
+    }
+
+    .upload-icon {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .upload-panel p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    .upload-panel p strong {
+      color: var(--white);
+    }
+
+    /* Row of buttons inside the upload panel */
+    .upload-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Red "Upload Video" button */
     .btn-upload {
-      background: var(--red); color: #fff; border: none;
-      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
-      letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; cursor: pointer; transition: background .2s;
+      background: var(--red);
+      color: #fff;
+      border: none;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: background 0.2s;
     }
-    .btn-upload:hover { background: var(--red-hover); }
+
+    .btn-upload:hover {
+      background: var(--red-dark);
+    }
+
+    /* Outlined "Add YouTube Link" button */
     .btn-upload-yt {
-      background: transparent; color: var(--white); border: 1px solid var(--border);
-      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
-      letter-spacing: 1px; text-transform: uppercase; padding: 9px 20px; cursor: pointer; transition: all .2s;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid var(--border);
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 9px 20px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .btn-upload-yt:hover { border-color: var(--red); color: var(--red); }
 
+    .btn-upload-yt:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    /* Hidden file input — triggered by the Upload button */
+    #file-upload-input {
+      display: none;
+    }
+
+
+    /* =============================================
+       YOUTUBE MODAL
+       A popup that appears when the user clicks
+       "Add YouTube Link". Hidden by default,
+       shown by adding the class "open" via JS.
+    ============================================= */
     .yt-modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(0,0,0,0.85); z-index: 1000;
-      align-items: center; justify-content: center;
+      display: none;              /* hidden by default */
+      position: fixed;            /* covers the whole screen */
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      z-index: 1000;              /* sits on top of everything */
+      align-items: center;
+      justify-content: center;
     }
-    .yt-modal-overlay.open { display: flex; }
-    .yt-modal {
-      background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--red);
-      padding: 28px; width: 100%; max-width: 460px; margin: 16px;
-    }
-    .yt-modal h3 { font-family: 'Oswald', sans-serif; font-size: 18px; font-weight: 700; margin-bottom: 4px; }
-    .yt-modal p { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
-    .yt-modal input, .yt-modal select {
-      width: 100%; background: var(--surface2); border: 1px solid var(--border);
-      color: var(--white); font-family: 'Inter', sans-serif; font-size: 14px;
-      padding: 11px 14px; outline: none; margin-bottom: 12px; transition: border-color .2s;
-    }
-    .yt-modal input:focus, .yt-modal select:focus { border-color: var(--red); }
-    .yt-modal select option { background: var(--surface2); }
-    .yt-modal-actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 4px; }
-    .btn-cancel {
-      background: none; border: 1px solid var(--border); color: var(--muted);
-      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600;
-      padding: 9px 20px; cursor: pointer; letter-spacing: 1px;
-    }
-    .btn-cancel:hover { border-color: var(--muted); color: var(--white); }
-    #file-upload-input { display: none; }
 
-    /* ── ARTICLE CARDS ── */
+    /* When JS adds the class "open", the modal appears */
+    .yt-modal-overlay.open {
+      display: flex;
+    }
+
+    /* The modal box itself */
+    .yt-modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--red);
+      padding: 28px;
+      width: 100%;
+      max-width: 460px;
+      margin: 16px; /* prevents it touching screen edges on mobile */
+    }
+
+    .yt-modal h3 {
+      font-family: 'Oswald', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .yt-modal p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    /* Text inputs and dropdowns inside the modal */
+    .yt-modal input,
+    .yt-modal select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 11px 14px;
+      outline: none;
+      margin-bottom: 12px;
+      transition: border-color 0.2s;
+    }
+
+    .yt-modal input:focus,
+    .yt-modal select:focus {
+      border-color: var(--red);
+    }
+
+    /* Dropdown options need a background colour to be readable */
+    .yt-modal select option {
+      background: var(--surface2);
+    }
+
+    /* Row of Cancel / Add Video buttons at the bottom of the modal */
+    .yt-modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 4px;
+    }
+
+    /* Cancel button (outlined, no background) */
+    .btn-cancel {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 9px 20px;
+      cursor: pointer;
+      letter-spacing: 1px;
+    }
+
+    .btn-cancel:hover {
+      border-color: var(--muted);
+      color: var(--white);
+    }
+
+
+    /* =============================================
+       FEATURED ARTICLE CARD
+       The big article at the top of the left column
+       with a pitch SVG image and article details.
+    ============================================= */
     .article-featured {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -175,21 +555,29 @@
       margin-bottom: 28px;
       overflow: hidden;
     }
+
+    /* The green pitch image area */
     .article-featured-img {
       width: 100%;
       height: 220px;
       background: var(--pitch);
-      position: relative;
-      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: hidden;
     }
 
-    /* SVG Football pitch */
-    .pitch-svg { width: 100%; height: 100%; }
+    .pitch-svg {
+      width: 100%;
+      height: 100%;
+    }
 
-    .article-body { padding: 24px; }
+    /* Text section inside the article card */
+    .article-body {
+      padding: 24px;
+    }
+
+    /* Small red category tag e.g. "PRESS TRIGGER" */
     .article-tag {
       display: inline-block;
       background: var(--red);
@@ -201,6 +589,7 @@
       padding: 3px 10px;
       margin-bottom: 12px;
     }
+
     .article-title {
       font-family: 'Oswald', sans-serif;
       font-size: 26px;
@@ -208,42 +597,134 @@
       line-height: 1.15;
       margin-bottom: 10px;
     }
-    .article-title a { color: var(--white); text-decoration: none; transition: color .2s; }
-    .article-title a:hover { color: var(--red); }
-    .article-excerpt { font-size: 14px; color: var(--text); line-height: 1.7; margin-bottom: 16px; }
-    .article-meta { display: flex; align-items: center; gap: 12px; }
-    .author-avatar {
-      width: 32px; height: 32px; background: var(--red); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 700; flex-shrink: 0;
-    }
-    .author-info .name { font-size: 13px; font-weight: 600; }
-    .author-info .date { font-size: 11px; color: var(--muted); }
-    .read-time { margin-left: auto; font-size: 11px; color: var(--muted); }
 
-    /* Article list */
-    .article-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 32px; }
+    .article-title a {
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .article-title a:hover {
+      color: var(--red);
+    }
+
+    .article-excerpt {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    /* Author name, date, and read time row */
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Red circle with author initials */
+    .author-avatar {
+      width: 32px;
+      height: 32px;
+      background: var(--red);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0; /* stops it shrinking if space is tight */
+    }
+
+    .author-info .name {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .author-info .date {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    /* "8 min read" pushed to the far right */
+    .read-time {
+      margin-left: auto;
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+
+    /* =============================================
+       ARTICLE LIST
+       The numbered list of smaller articles below
+       the featured article and formation board.
+    ============================================= */
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
     .article-list-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-left: 3px solid transparent;
+      border-left: 3px solid transparent; /* turns red on hover */
       padding: 18px 20px;
-      display: flex; gap: 16px;
-      transition: border-left-color .2s;
+      display: flex;
+      gap: 16px;
+      transition: border-left-color 0.2s;
       cursor: pointer;
     }
-    .article-list-card:hover { border-left-color: var(--red); }
+
+    .article-list-card:hover {
+      border-left-color: var(--red);
+    }
+
+    /* Big grey number e.g. "01" */
     .alc-num {
       font-family: 'Oswald', sans-serif;
-      font-size: 32px; font-weight: 700;
-      color: var(--border); line-height: 1; flex-shrink: 0; width: 36px;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--border);
+      line-height: 1;
+      flex-shrink: 0;
+      width: 36px;
     }
-    .alc-content { flex: 1; }
-    .alc-tag { font-size: 10px; color: var(--red); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
-    .alc-title { font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 600; margin-bottom: 6px; line-height: 1.2; }
-    .alc-meta { font-size: 11px; color: var(--muted); }
 
-    /* ── FORMATION VIEWER ── */
+    .alc-content {
+      flex: 1;
+    }
+
+    .alc-tag {
+      font-size: 10px;
+      color: var(--red);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .alc-title {
+      font-family: 'Oswald', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .alc-meta {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+
+    /* =============================================
+       FORMATION VIEWER
+       Interactive football pitch where users can
+       switch between formations (4-3-3, etc.)
+    ============================================= */
     .formation-viewer {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -251,161 +732,414 @@
       padding: 24px;
       margin-bottom: 28px;
     }
+
     .formation-viewer h2 {
       font-family: 'Oswald', sans-serif;
-      font-size: 18px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1px;
+      font-size: 18px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       margin-bottom: 6px;
     }
-    .formation-viewer .subtitle { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
 
-    .formation-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-    .ftab {
-      background: var(--surface2); border: 1px solid var(--border);
-      color: var(--muted); font-family: 'Oswald', sans-serif;
-      font-size: 13px; font-weight: 600; padding: 7px 16px;
-      cursor: pointer; letter-spacing: 1px; transition: all .2s;
+    .formation-viewer .subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
     }
-    .ftab.active, .ftab:hover { background: var(--red); border-color: var(--red); color: #fff; }
 
+    /* Row of formation buttons e.g. 4-3-3, 4-2-3-1 */
+    .formation-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .ftab {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Oswald', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 16px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      transition: all 0.2s;
+    }
+
+    /* Active / hovered tab turns red */
+    .ftab.active,
+    .ftab:hover {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+
+    /* The green pitch box — uses padding-bottom trick for fixed aspect ratio */
     .pitch-container {
       background: var(--pitch);
-      border: 2px solid rgba(255,255,255,.1);
+      border: 2px solid rgba(255, 255, 255, 0.1);
       position: relative;
       width: 100%;
-      padding-bottom: 130%;
+      padding-bottom: 130%; /* makes the pitch taller than wide, like a real pitch */
       overflow: hidden;
     }
+
+    /* SVG pitch lines drawn on top of the green background */
     .pitch-lines {
-      position: absolute; inset: 0;
-      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      pointer-events: none; /* so clicks go through to player dots */
     }
+
+    /* Each player dot on the pitch */
     .player-dot {
       position: absolute;
-      width: 44px; height: 44px;
-      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+      transform: translate(-50%, -50%); /* centres the dot on its x/y position */
       cursor: pointer;
     }
+
+    /* The red circle with player initials */
     .player-dot .dot {
-      width: 36px; height: 36px;
+      width: 36px;
+      height: 36px;
       background: var(--red);
       border: 2px solid #fff;
       border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Oswald', sans-serif; font-size: 11px; font-weight: 700;
-      color: #fff; margin: 4px;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .player-dot:hover .dot { transform: scale(1.15); box-shadow: 0 0 12px var(--red); }
-    .player-dot .pname {
-      position: absolute; bottom: -16px; left: 50%; transform: translateX(-50%);
-      font-size: 9px; font-weight: 600; white-space: nowrap;
-      background: rgba(0,0,0,.8); padding: 1px 5px; color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Oswald', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      margin: 4px;
+      transition: transform 0.2s, box-shadow 0.2s;
     }
 
-    /* ── SIDEBAR ── */
-    .sidebar { display: flex; flex-direction: column; gap: 24px; }
+    /* Grow and glow on hover */
+    .player-dot:hover .dot {
+      transform: scale(1.15);
+      box-shadow: 0 0 12px var(--red);
+    }
+
+    /* Player name label below each dot */
+    .player-dot .pname {
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 9px;
+      font-weight: 600;
+      white-space: nowrap;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1px 5px;
+      color: #fff;
+    }
+
+
+    /* =============================================
+       SIDEBAR
+       The right column with stats, heatmap, and tags.
+    ============================================= */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Each individual card inside the sidebar */
     .sidebar-card {
       background: var(--surface);
       border: 1px solid var(--border);
       padding: 20px;
     }
+
+    /* Sidebar card heading e.g. "Season Stats" */
     .sidebar-card h3 {
-      font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 1px;
-      margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+      font-family: 'Oswald', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--border);
     }
-    .sidebar-card h3 span { color: var(--red); }
 
-    .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px solid var(--border); }
-    .stat-row:last-child { border-bottom: none; }
-    .stat-label { font-size: 13px; color: var(--muted); }
-    .stat-value { font-family: 'Oswald', sans-serif; font-size: 14px; font-weight: 600; }
-    .stat-value.red { color: var(--red); }
+    /* The word in red inside the heading e.g. <span>Stats</span> */
+    .sidebar-card h3 span {
+      color: var(--red);
+    }
 
+    /* Each row in the stats list */
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .stat-value {
+      font-family: 'Oswald', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Add .red to a stat value to colour it Arsenal red */
+    .stat-value.red {
+      color: var(--red);
+    }
+
+    /* 3x3 grid for the attack zones heatmap */
     .heatmap-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
     }
+
+    /* Each cell in the heatmap */
     .hm-cell {
-      aspect-ratio: 1; border-radius: 2px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 10px; color: rgba(255,255,255,.7);
+      aspect-ratio: 1; /* keeps cells square */
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.7);
     }
 
-    .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; }
+    /* Tag cloud for "Browse Topics" */
+    .tag-cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    /* Individual topic tag */
     .tag {
-      background: var(--surface2); border: 1px solid var(--border);
-      font-size: 12px; color: var(--muted); padding: 5px 12px;
-      cursor: pointer; transition: all .2s;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--muted);
+      padding: 5px 12px;
+      cursor: pointer;
+      transition: all 0.2s;
     }
-    .tag:hover, .tag.active { border-color: var(--red); color: var(--red); }
 
-    #footer-placeholder { min-height: 80px; background: #0a0a0a; border-top: 1px solid var(--border); }
+    /* Active or hovered tag gets a red border and text */
+    .tag:hover,
+    .tag.active {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+
+    /* =============================================
+       FOOTER
+       The footer HTML lives in a separate file
+       and gets injected into <div id="footer">.
+    ============================================= */
+    #footer {
+      min-height: 80px;
+      background: #0a0a0a;
+      border-top: 1px solid var(--border);
+    }
+
   </style>
 </head>
 <body>
 
- <div id="navbar"></div>
+  <!-- =============================================
+    NAVBAR
+    Your shared navbar file gets loaded into this div.
+    Make sure all navbar fonts use 'Oswald', sans-serif
+  ============================================= -->
+  <div id="navbar"></div>
 
+
+  <!-- =============================================
+    PAGE HERO
+    Big title banner at the top of the page.
+  ============================================= -->
   <div class="page-hero">
     <div class="eyebrow">In Depth</div>
     <h1>TACTICAL <span>ANALYSIS</span></h1>
     <p>Breaking down how Arsenal play, press, and dominate. Deep dives for the thinking Gooner.</p>
   </div>
 
+
+  <!-- =============================================
+    MAIN CONTENT
+    Two-column layout: articles on the left, sidebar on the right.
+  ============================================= -->
   <div class="main-content">
 
-    <!-- LEFT -->
+    <!-- ── LEFT COLUMN ── -->
     <div class="left-col">
 
+      <!-- ── VIDEO SECTION (appears above articles) ── -->
+      <div class="section-label">Tactical Videos</div>
+      <div class="video-section">
+
+        <!-- Featured video — the big one at the top.
+             To change the YouTube video, replace the src URL below.
+             The video ID is the part after "embed/" in the URL. -->
+        <div class="video-featured">
+          <div class="video-embed-wrap">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Tactical Analysis Video"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-info">
+            <span class="video-tag">Press Trigger</span>
+            <div class="video-title">Arteta's High Press: Full Tactical Breakdown</div>
+            <div class="video-meta">The Cannon Post · 26 May 2025 · 14 min</div>
+          </div>
+        </div>
+
+        <!-- Smaller video grid — two videos side by side.
+             To add more videos, copy one .video-card block and paste it inside .video-grid. -->
+        <div class="video-grid" id="video-grid">
+
+          <!-- Video card 1 -->
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Video 1"
+                allowfullscreen>
+              </iframe>
+              <!-- Play button overlay shown on hover -->
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="video-card-info">
+              <div class="video-card-tag">Set Pieces</div>
+              <div class="video-card-title">Arsenal's Corner Routines Explained</div>
+              <div class="video-card-meta">23 May 2025 · 9 min</div>
+            </div>
+          </div>
+
+          <!-- Video card 2 -->
+          <div class="video-card">
+            <div class="video-thumb">
+              <iframe
+                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                title="Video 2"
+                allowfullscreen>
+              </iframe>
+              <div class="play-overlay">
+                <div class="play-btn">
+                  <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                </div>
+              </div>
+            </div>
+            <div class="video-card-info">
+              <div class="video-card-tag">Midfield</div>
+              <div class="video-card-title">How Ødegaard Controls the Game</div>
+              <div class="video-card-meta">20 May 2025 · 11 min</div>
+            </div>
+          </div>
+
+        </div><!-- end .video-grid -->
+
+        <!-- Upload panel — lets admins add new videos -->
+        <div class="upload-panel">
+          <div class="upload-icon">🎬</div>
+          <p><strong>Add a tactical video</strong><br>Upload a video file or paste a YouTube link</p>
+          <div class="upload-row">
+            <!-- Clicking this triggers the hidden file input below -->
+            <button class="btn-upload" onclick="document.getElementById('file-upload-input').click()">
+              ⬆ Upload Video
+            </button>
+            <!-- Clicking this opens the YouTube link modal -->
+            <button class="btn-upload-yt" onclick="openModal()">
+              ▶ Add YouTube Link
+            </button>
+          </div>
+          <!-- Hidden file input — the browser opens a file picker when triggered -->
+          <input type="file" id="file-upload-input" accept="video/*" onchange="handleFileUpload(event)">
+        </div>
+
+      </div><!-- end .video-section -->
+
+
+      <!-- ── FEATURED ARTICLE ── -->
       <div class="section-label">Featured Analysis</div>
 
       <div class="article-featured">
+        <!-- Mini pitch diagram drawn with SVG -->
         <div class="article-featured-img">
-          <!-- Mini pitch SVG -->
           <svg class="pitch-svg" viewBox="0 0 400 260" xmlns="http://www.w3.org/2000/svg">
             <rect width="400" height="260" fill="#1a3a1a"/>
-            <!-- Stripes -->
-            <rect x="0" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
+            <!-- Pitch stripes -->
+            <rect x="0"   y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
             <rect x="100" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
             <rect x="200" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
             <rect x="300" y="0" width="50" height="260" fill="rgba(255,255,255,0.03)"/>
-            <!-- Pitch lines -->
+            <!-- Pitch boundary and centre line -->
             <rect x="20" y="20" width="360" height="220" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
             <line x1="200" y1="20" x2="200" y2="240" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <!-- Centre circle -->
             <circle cx="200" cy="130" r="30" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-            <circle cx="200" cy="130" r="3" fill="rgba(255,255,255,0.4)"/>
-            <!-- Penalty areas -->
-            <rect x="20" y="70" width="80" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-            <rect x="300" y="70" width="80" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
-            <!-- Players (4-3-3) - red team -->
+            <circle cx="200" cy="130" r="3"  fill="rgba(255,255,255,0.4)"/>
+            <!-- Penalty boxes -->
+            <rect x="20"  y="70" width="80"  height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <rect x="300" y="70" width="80"  height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"/>
+            <!-- Arsenal players (red dots) in 4-3-3 shape -->
             <g fill="#E01020" stroke="#fff" stroke-width="1.5">
-              <circle cx="50" cy="130" r="10"/>
-              <circle cx="90" cy="70" r="10"/>
-              <circle cx="90" cy="105" r="10"/>
-              <circle cx="90" cy="155" r="10"/>
-              <circle cx="90" cy="190" r="10"/>
-              <circle cx="140" cy="90" r="10"/>
+              <circle cx="50"  cy="130" r="10"/>
+              <circle cx="90"  cy="70"  r="10"/>
+              <circle cx="90"  cy="105" r="10"/>
+              <circle cx="90"  cy="155" r="10"/>
+              <circle cx="90"  cy="190" r="10"/>
+              <circle cx="140" cy="90"  r="10"/>
               <circle cx="140" cy="130" r="10"/>
               <circle cx="140" cy="170" r="10"/>
-              <circle cx="195" cy="80" r="10"/>
+              <circle cx="195" cy="80"  r="10"/>
               <circle cx="195" cy="130" r="10"/>
               <circle cx="195" cy="180" r="10"/>
             </g>
-            <!-- Arrow: press trigger -->
-            <path d="M210,130 Q260,100 300,110" fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
-            <path d="M210,80 Q250,60 300,90" fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3"/>
+            <!-- Dashed arrows showing press triggers -->
             <defs>
               <marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
                 <path d="M0,0 L6,3 L0,6 Z" fill="#E01020"/>
               </marker>
             </defs>
+            <path d="M210,130 Q260,100 300,110" fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3" marker-end="url(#arr)"/>
+            <path d="M210,80  Q250,60  300,90"  fill="none" stroke="#E01020" stroke-width="2" stroke-dasharray="6,3"/>
           </svg>
         </div>
+
         <div class="article-body">
           <span class="article-tag">Press Trigger</span>
-          <div class="article-title"><a href="#">How Arteta's High Press Suffocated Everton's Build-Up</a></div>
-          <p class="article-excerpt">Arsenal's relentless press in the first half left Everton unable to play out from the back. We break down the triggers, the traps, and why the 4-3-3 shape is the engine of everything Arteta is building.</p>
+          <div class="article-title">
+            <a href="#">How Arteta's High Press Suffocated Everton's Build-Up</a>
+          </div>
+          <p class="article-excerpt">
+            Arsenal's relentless press in the first half left Everton unable to play out from the back.
+            We break down the triggers, the traps, and why the 4-3-3 shape is the engine of everything Arteta is building.
+          </p>
           <div class="article-meta">
             <div class="author-avatar">TC</div>
             <div class="author-info">
@@ -417,22 +1151,29 @@
         </div>
       </div>
 
-      <!-- Formation Viewer -->
+
+      <!-- ── FORMATION BOARD ── -->
       <div class="section-label">Formation Board</div>
       <div class="formation-viewer">
         <h2>Arsenal Starting XI</h2>
         <p class="subtitle">Click a formation to see how the team sets up</p>
+
+        <!-- Formation selector buttons -->
         <div class="formation-tabs">
           <button class="ftab active" onclick="setFormation('4-3-3', this)">4-3-3</button>
           <button class="ftab" onclick="setFormation('4-2-3-1', this)">4-2-3-1</button>
           <button class="ftab" onclick="setFormation('3-4-3', this)">3-4-3</button>
         </div>
+
+        <!-- The pitch is drawn into this div by JavaScript -->
         <div class="pitch-container" id="pitch"></div>
       </div>
 
-      <!-- Article list -->
+
+      <!-- ── ARTICLE LIST ── -->
       <div class="section-label">More Analysis</div>
       <div class="article-list">
+
         <div class="article-list-card">
           <div class="alc-num">01</div>
           <div class="alc-content">
@@ -441,6 +1182,7 @@
             <div class="alc-meta">Tom Hayes · 23 May 2025 · 6 min read</div>
           </div>
         </div>
+
         <div class="article-list-card">
           <div class="alc-num">02</div>
           <div class="alc-content">
@@ -449,6 +1191,7 @@
             <div class="alc-meta">The Cannon Post · 20 May 2025 · 10 min read</div>
           </div>
         </div>
+
         <div class="article-list-card">
           <div class="alc-num">03</div>
           <div class="alc-content">
@@ -457,6 +1200,7 @@
             <div class="alc-meta">Marcus O. · 17 May 2025 · 7 min read</div>
           </div>
         </div>
+
         <div class="article-list-card">
           <div class="alc-num">04</div>
           <div class="alc-content">
@@ -465,40 +1209,52 @@
             <div class="alc-meta">The Cannon Post · 12 May 2025 · 9 min read</div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <!-- SIDEBAR -->
+      </div><!-- end .article-list -->
+
+    </div><!-- end .left-col -->
+
+
+    <!-- ── SIDEBAR (right column) ── -->
     <aside class="sidebar">
 
+      <!-- Season stats card -->
       <div class="sidebar-card">
         <h3>Season <span>Stats</span></h3>
-        <div class="stat-row"><span class="stat-label">Goals Scored</span><span class="stat-value red">78</span></div>
-        <div class="stat-row"><span class="stat-label">Goals Conceded</span><span class="stat-value">28</span></div>
-        <div class="stat-row"><span class="stat-label">Avg Possession</span><span class="stat-value red">62%</span></div>
-        <div class="stat-row"><span class="stat-label">PPDA (Press)</span><span class="stat-value red">7.4</span></div>
-        <div class="stat-row"><span class="stat-label">xG For</span><span class="stat-value">71.3</span></div>
-        <div class="stat-row"><span class="stat-label">xG Against</span><span class="stat-value">24.1</span></div>
-        <div class="stat-row"><span class="stat-label">High Press Wins</span><span class="stat-value red">318</span></div>
+        <div class="stat-row"><span class="stat-label">Goals Scored</span>    <span class="stat-value red">78</span></div>
+        <div class="stat-row"><span class="stat-label">Goals Conceded</span>  <span class="stat-value">28</span></div>
+        <div class="stat-row"><span class="stat-label">Avg Possession</span>  <span class="stat-value red">62%</span></div>
+        <div class="stat-row"><span class="stat-label">PPDA (Press)</span>    <span class="stat-value red">7.4</span></div>
+        <div class="stat-row"><span class="stat-label">xG For</span>          <span class="stat-value">71.3</span></div>
+        <div class="stat-row"><span class="stat-label">xG Against</span>      <span class="stat-value">24.1</span></div>
+        <div class="stat-row"><span class="stat-label">High Press Wins</span> <span class="stat-value red">318</span></div>
       </div>
 
+      <!-- Attack zones heatmap card
+           Each .hm-cell is one zone on the pitch.
+           The background opacity shows how active that zone is.
+           Higher opacity = more activity. -->
       <div class="sidebar-card">
         <h3>Attack <span>Zones</span></h3>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:12px;">Where Arsenal create from this season</p>
+        <p style="font-size:12px; color:var(--muted); margin-bottom:12px;">Where Arsenal create from this season</p>
         <div class="heatmap-grid">
-          <div class="hm-cell" style="background:rgba(224,16,32,0.15)">L</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.25)">C</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.6)">R</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.2)">L</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.9)">C</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.45)">R</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.1)">L</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.15)">C</div>
-          <div class="hm-cell" style="background:rgba(224,16,32,0.1)">R</div>
+          <!-- Row 1: defensive third -->
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.15)">L</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.25)">C</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.60)">R</div>
+          <!-- Row 2: middle third -->
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.20)">L</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.90)">C</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.45)">R</div>
+          <!-- Row 3: attacking third -->
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.10)">L</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.15)">C</div>
+          <div class="hm-cell" style="background: rgba(224,16,32, 0.10)">R</div>
         </div>
-        <p style="font-size:11px;color:var(--muted);margin-top:10px;">Saka's right flank dominates chance creation</p>
+        <p style="font-size:11px; color:var(--muted); margin-top:10px;">Saka's right flank dominates chance creation</p>
       </div>
 
+      <!-- Topic filter tags card -->
       <div class="sidebar-card">
         <h3>Browse <span>Topics</span></h3>
         <div class="tag-cloud">
@@ -514,106 +1270,345 @@
       </div>
 
     </aside>
+
+  </div><!-- end .main-content -->
+
+
+  <!-- =============================================
+    YOUTUBE MODAL POPUP
+    Hidden by default. Shown when user clicks
+    "Add YouTube Link". Closed by clicking Cancel
+    or by clicking outside the modal box.
+  ============================================= -->
+  <div class="yt-modal-overlay" id="yt-modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="yt-modal">
+      <h3>Add YouTube Video</h3>
+      <p>Paste the full YouTube URL and fill in the details below.</p>
+
+      <!-- YouTube URL input -->
+      <input type="text" id="yt-url" placeholder="https://www.youtube.com/watch?v=...">
+
+      <!-- Video title input -->
+      <input type="text" id="yt-title" placeholder="Video title">
+
+      <!-- Category dropdown -->
+      <select id="yt-tag">
+        <option value="">Select category...</option>
+        <option value="Press">Press</option>
+        <option value="Set Pieces">Set Pieces</option>
+        <option value="Midfield">Midfield</option>
+        <option value="Defending">Defending</option>
+        <option value="Transitions">Transitions</option>
+        <option value="Wide Play">Wide Play</option>
+      </select>
+
+      <div class="yt-modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-upload" onclick="addYouTubeVideo()">Add Video</button>
+      </div>
+    </div>
   </div>
 
+
+  <!-- =============================================
+    FOOTER
+    Your shared footer file gets loaded into this div.
+  ============================================= -->
   <div id="footer"></div>
 
+
   <script>
+
+    // ==============================================
+    // FORMATION DATA
+    // Each formation has a name (key) and an array
+    // of 11 players. Each player has:
+    //   name → short display name
+    //   x    → left position on pitch as a percentage (0–100)
+    //   y    → top position on pitch as a percentage (0–100)
+    //          higher y = closer to bottom of pitch (goalkeeper end)
+    // To edit a player's position, just change x or y.
+    // ==============================================
     const formations = {
+
       '4-3-3': [
-        { name:'Raya', x:50, y:88 },
-        { name:'White', x:20, y:72 },
-        { name:'Saliba', x:37, y:72 },
-        { name:'Gabriel', x:63, y:72 },
-        { name:'Zinch.', x:80, y:72 },
-        { name:'Havertz', x:25, y:52 },
-        { name:'Ødeg.', x:50, y:47 },
-        { name:'Rice', x:75, y:52 },
-        { name:'Saka', x:82, y:28 },
-        { name:'Jesus', x:50, y:22 },
-        { name:'Mart.', x:18, y:28 },
+        { name: 'Raya',    x: 50, y: 88 }, // Goalkeeper
+        { name: 'White',   x: 20, y: 72 }, // Right back
+        { name: 'Saliba',  x: 37, y: 72 }, // Centre back
+        { name: 'Gabriel', x: 63, y: 72 }, // Centre back
+        { name: 'Zinch.',  x: 80, y: 72 }, // Left back
+        { name: 'Havertz', x: 25, y: 52 }, // Central mid
+        { name: 'Ødeg.',   x: 50, y: 47 }, // Central mid (captain)
+        { name: 'Rice',    x: 75, y: 52 }, // Central mid
+        { name: 'Saka',    x: 82, y: 28 }, // Right wing
+        { name: 'Jesus',   x: 50, y: 22 }, // Striker
+        { name: 'Mart.',   x: 18, y: 28 }, // Left wing
       ],
+
       '4-2-3-1': [
-        { name:'Raya', x:50, y:88 },
-        { name:'White', x:20, y:72 },
-        { name:'Saliba', x:37, y:72 },
-        { name:'Gabriel', x:63, y:72 },
-        { name:'Zinch.', x:80, y:72 },
-        { name:'Rice', x:35, y:57 },
-        { name:'Havertz', x:65, y:57 },
-        { name:'Saka', x:80, y:38 },
-        { name:'Ødeg.', x:50, y:35 },
-        { name:'Mart.', x:20, y:38 },
-        { name:'Jesus', x:50, y:18 },
+        { name: 'Raya',    x: 50, y: 88 },
+        { name: 'White',   x: 20, y: 72 },
+        { name: 'Saliba',  x: 37, y: 72 },
+        { name: 'Gabriel', x: 63, y: 72 },
+        { name: 'Zinch.',  x: 80, y: 72 },
+        { name: 'Rice',    x: 35, y: 57 }, // Defensive mid
+        { name: 'Havertz', x: 65, y: 57 }, // Defensive mid
+        { name: 'Saka',    x: 80, y: 38 }, // Right attacking mid
+        { name: 'Ødeg.',   x: 50, y: 35 }, // Central attacking mid
+        { name: 'Mart.',   x: 20, y: 38 }, // Left attacking mid
+        { name: 'Jesus',   x: 50, y: 18 }, // Striker
       ],
+
       '3-4-3': [
-        { name:'Raya', x:50, y:88 },
-        { name:'Timber', x:25, y:72 },
-        { name:'Saliba', x:50, y:72 },
-        { name:'Gabriel', x:75, y:72 },
-        { name:'Cala.', x:15, y:52 },
-        { name:'Rice', x:38, y:52 },
-        { name:'Ødeg.', x:62, y:52 },
-        { name:'Zinch.', x:85, y:52 },
-        { name:'Saka', x:80, y:28 },
-        { name:'Jesus', x:50, y:22 },
-        { name:'Mart.', x:20, y:28 },
+        { name: 'Raya',    x: 50, y: 88 },
+        { name: 'Timber',  x: 25, y: 72 }, // Centre back
+        { name: 'Saliba',  x: 50, y: 72 }, // Centre back
+        { name: 'Gabriel', x: 75, y: 72 }, // Centre back
+        { name: 'Cala.',   x: 15, y: 52 }, // Right wing back
+        { name: 'Rice',    x: 38, y: 52 }, // Central mid
+        { name: 'Ødeg.',   x: 62, y: 52 }, // Central mid
+        { name: 'Zinch.',  x: 85, y: 52 }, // Left wing back
+        { name: 'Saka',    x: 80, y: 28 }, // Right forward
+        { name: 'Jesus',   x: 50, y: 22 }, // Centre forward
+        { name: 'Mart.',   x: 20, y: 28 }, // Left forward
       ],
+
     };
 
-    function setFormation(key, btn) {
-      document.querySelectorAll('.ftab').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderPitch(key);
+
+    // ==============================================
+    // SET FORMATION
+    // Called when a formation tab button is clicked.
+    // Removes "active" from all tabs, adds it to the
+    // clicked one, then redraws the pitch.
+    // ==============================================
+    function setFormation(formationName, clickedButton) {
+      // Remove active highlight from all tabs
+      document.querySelectorAll('.ftab').forEach(function(tab) {
+        tab.classList.remove('active');
+      });
+
+      // Highlight the tab that was just clicked
+      clickedButton.classList.add('active');
+
+      // Redraw the pitch with the chosen formation
+      renderPitch(formationName);
     }
 
-    function renderPitch(key) {
-      const container = document.getElementById('pitch');
-      const players = formations[key];
-      const w = container.offsetWidth || 300;
-      const h = w * 1.3;
 
+    // ==============================================
+    // RENDER PITCH
+    // Draws the football pitch SVG and places a
+    // red dot for each player at their x/y position.
+    // ==============================================
+    function renderPitch(formationName) {
+      const container = document.getElementById('pitch');
+      const players   = formations[formationName];
+
+      // Draw the pitch lines using SVG
       container.innerHTML = `
         <svg class="pitch-lines" viewBox="0 0 100 130" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Stripes -->
-          <rect x="0" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
+
+          <!-- Alternating green stripes for realism -->
+          <rect x="0"  y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
           <rect x="20" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
           <rect x="40" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
           <rect x="60" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
           <rect x="80" y="0" width="10" height="130" fill="rgba(255,255,255,0.02)"/>
-          <!-- Outer -->
+
+          <!-- Pitch outline -->
           <rect x="5" y="5" width="90" height="120" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
-          <!-- Halfway -->
+
+          <!-- Halfway line and centre circle -->
           <line x1="5" y1="65" x2="95" y2="65" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
           <circle cx="50" cy="65" r="12" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width=".8"/>
-          <!-- Penalty areas -->
-          <rect x="22" y="5" width="56" height="22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width=".8"/>
+
+          <!-- Penalty boxes (top and bottom) -->
+          <rect x="22" y="5"   width="56" height="22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width=".8"/>
           <rect x="22" y="103" width="56" height="22" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width=".8"/>
-          <!-- Goals -->
-          <rect x="38" y="2" width="24" height="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width=".8"/>
+
+          <!-- Goals (top and bottom) -->
+          <rect x="38" y="2"   width="24" height="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width=".8"/>
           <rect x="38" y="123" width="24" height="5" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width=".8"/>
+
         </svg>
       `;
 
-      players.forEach(p => {
+      // Place a dot on the pitch for each player
+      players.forEach(function(player) {
         const dot = document.createElement('div');
         dot.className = 'player-dot';
-        dot.style.left = p.x + '%';
-        dot.style.top = p.y + '%';
-        dot.innerHTML = `<div class="dot">${p.name.substring(0,3).toUpperCase()}</div><span class="pname">${p.name}</span>`;
+
+        // Position the dot using the x/y percentages
+        dot.style.left = player.x + '%';
+        dot.style.top  = player.y + '%';
+
+        // Show the first 3 letters of the name in the circle
+        const initials = player.name.substring(0, 3).toUpperCase();
+
+        dot.innerHTML = `
+          <div class="dot">${initials}</div>
+          <span class="pname">${player.name}</span>
+        `;
+
         container.appendChild(dot);
       });
     }
 
-    renderPitch('4-3-3');
 
-    // Tag filter
-    document.querySelectorAll('.tag').forEach(t => {
-      t.addEventListener('click', () => {
-        document.querySelectorAll('.tag').forEach(x => x.classList.remove('active'));
-        t.classList.add('active');
+    // ==============================================
+    // TOPIC TAG FILTER
+    // Clicking a tag removes "active" from all tags
+    // and adds it to the one that was clicked.
+    // ==============================================
+    document.querySelectorAll('.tag').forEach(function(tag) {
+      tag.addEventListener('click', function() {
+        // Deactivate all tags
+        document.querySelectorAll('.tag').forEach(function(t) {
+          t.classList.remove('active');
+        });
+        // Activate the clicked tag
+        tag.classList.add('active');
       });
     });
+
+
+    // ==============================================
+    // YOUTUBE MODAL — OPEN & CLOSE
+    // ==============================================
+
+    // Opens the YouTube modal by adding the "open" class
+    function openModal() {
+      document.getElementById('yt-modal-overlay').classList.add('open');
+    }
+
+    // Closes the modal by removing the "open" class
+    function closeModal() {
+      document.getElementById('yt-modal-overlay').classList.remove('open');
+    }
+
+    // Closes the modal only if the user clicked the dark overlay
+    // (not the white box itself)
+    function closeModalOnOverlay(event) {
+      if (event.target === document.getElementById('yt-modal-overlay')) {
+        closeModal();
+      }
+    }
+
+
+    // ==============================================
+    // ADD YOUTUBE VIDEO
+    // Reads the URL and title from the modal inputs,
+    // converts the watch URL to an embed URL,
+    // then creates a new video card and adds it to the grid.
+    // ==============================================
+    function addYouTubeVideo() {
+      const url   = document.getElementById('yt-url').value.trim();
+      const title = document.getElementById('yt-title').value.trim() || 'Tactical Video';
+      const tag   = document.getElementById('yt-tag').value || 'Analysis';
+
+      // Check a URL was entered
+      if (!url) {
+        alert('Please paste a YouTube URL.');
+        return;
+      }
+
+      // Convert a YouTube watch URL to an embed URL
+      // e.g. https://www.youtube.com/watch?v=ABC123
+      //   →  https://www.youtube.com/embed/ABC123
+      let embedUrl = url;
+      if (url.includes('watch?v=')) {
+        const videoId = url.split('watch?v=')[1].split('&')[0];
+        embedUrl = 'https://www.youtube.com/embed/' + videoId;
+      } else if (url.includes('youtu.be/')) {
+        const videoId = url.split('youtu.be/')[1].split('?')[0];
+        embedUrl = 'https://www.youtube.com/embed/' + videoId;
+      }
+
+      // Build the new video card HTML
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="video-thumb">
+          <iframe src="${embedUrl}" title="${title}" allowfullscreen></iframe>
+          <div class="play-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-card-info">
+          <div class="video-card-tag">${tag}</div>
+          <div class="video-card-title">${title}</div>
+          <div class="video-card-meta">Just added</div>
+        </div>
+      `;
+
+      // Add the new card to the video grid
+      document.getElementById('video-grid').appendChild(card);
+
+      // Clear the modal inputs and close the modal
+      document.getElementById('yt-url').value   = '';
+      document.getElementById('yt-title').value = '';
+      document.getElementById('yt-tag').value   = '';
+      closeModal();
+    }
+
+
+    // ==============================================
+    // HANDLE FILE UPLOAD
+    // When a user selects a video file from their
+    // computer, this creates a video card using
+    // a local blob URL so the browser can play it.
+    // ==============================================
+    function handleFileUpload(event) {
+      // Get the selected file
+      const file = event.target.files[0];
+
+      // Do nothing if no file was selected
+      if (!file) return;
+
+      // Create a temporary URL the browser can use to play the file
+      const blobUrl = URL.createObjectURL(file);
+
+      // Remove the file extension to use as the title
+      const title = file.name.replace(/\.[^.]+$/, '');
+
+      // Build the video card
+      const card = document.createElement('div');
+      card.className = 'video-card';
+      card.innerHTML = `
+        <div class="video-thumb">
+          <video src="${blobUrl}" controls></video>
+          <div class="play-overlay">
+            <div class="play-btn">
+              <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+          </div>
+        </div>
+        <div class="video-card-info">
+          <div class="video-card-tag">Uploaded</div>
+          <div class="video-card-title">${title}</div>
+          <div class="video-card-meta">Just uploaded</div>
+        </div>
+      `;
+
+      // Add the new card to the video grid
+      document.getElementById('video-grid').appendChild(card);
+
+      // Reset the file input so the same file can be uploaded again if needed
+      event.target.value = '';
+    }
+
+
+    // ==============================================
+    // RUN ON PAGE LOAD
+    // Draw the default formation (4-3-3) when
+    // the page first loads.
+    // ==============================================
+    renderPitch('4-3-3');
+
   </script>
+
 </body>
 </html>
