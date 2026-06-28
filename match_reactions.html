@@ -66,81 +66,255 @@
 </head>
 <body>
 
+<!-- =====================================================
+     HEADER SECTION
+     Contains website title and match status
+===================================================== -->
+
 <header>
+  <!-- Small status badge -->
   <div class="eyebrow">Full Time</div>
-  <h1>MATCH <span>REACTIONS</span></h1>
-  <p>Share your thoughts with the Gooner faithful.</p>
+  <!-- Main page title -->
+  <h1>
+    MATCH <span>REACTIONS</span>
+  </h1>
+  <!-- Header description -->
+  <p>
+    Share your thoughts with the Gooner faithful.
+  </p>
 </header>
-
+<!-- =====================================================
+     MAIN PAGE CONTAINER
+     Holds match content and sidebar
+===================================================== -->
 <div class="layout">
+  <!-- =================================================
+       LEFT SIDE CONTENT
+       Contains score, comment box and comments
+  ================================================== -->
   <div>
+    <!-- ================= SCORE CARD ================= -->
     <div class="score-card">
-      <div class="label">Premier League · GW 38 · 25 May 2025</div>
+      <!-- Competition and match information -->
+      <div class="label">
+        Premier League · GW 38 · 25 May 2025
+      </div>
+      <!-- Displays both teams and final score -->
       <div class="scoreline">
+        <!-- Arsenal team information -->
         <div class="team">
-          <div class="team-name" style="color:#e01020">Arsenal</div>
-          <div class="score">3</div>
-          <div class="scorers">Saka 12' · Havertz 44'<br>Martinelli 78'</div>
+          <!-- Team name -->
+          <div class="team-name" style="color:#e01020">
+            Arsenal
+          </div>
+          <!-- Final score -->
+          <div class="score">
+            3
+          </div>
+          <!-- Goal scorers -->
+          <div class="scorers">
+            Saka 12' · Havertz 44'<br>
+            Martinelli 78'
+          </div>
         </div>
-        <div style="font-family:'Oswald',sans-serif;font-size:40px;color:#444">–</div>
+        <!-- Match separator -->
+        <div style="font-family:'Oswald',sans-serif;font-size:40px;color:#444">
+          –
+        </div>
+        <!-- Everton team information -->
         <div class="team">
-          <div class="team-name">Everton</div>
-          <div class="score">1</div>
-          <div class="scorers">Calvert-Lewin 67'</div>
+          <!-- Team name -->
+          <div class="team-name">
+            Everton
+          </div>
+          <!-- Final score -->
+          <div class="score">
+            1
+          </div>
+          <!-- Goal scorer -->
+          <div class="scorers">
+            Calvert-Lewin 67'
+          </div>
         </div>
       </div>
     </div>
-
+    <!-- =================================================
+         COMMENT INPUT SECTION
+         Allows users to write new comments
+    ================================================== -->
     <div class="composer">
-      <textarea id="input" placeholder="What did you think of the match?" maxlength="500" oninput="updateChars()"></textarea>
-      <div class="composer-row">
-        <span class="chars" id="chars">500 left</span>
-        <button class="post" onclick="post()">Post Comment</button>
+      <!-- Text area where user types comment -->
+      <textarea 
+        id="input"
+        placeholder="What did you think of the match?"
+        maxlength="500"
+        oninput="updateChars()">
+      </textarea>
+      <!-- Bottom row containing character count and button -->
+      <div class="composer-row"></div>
+        <!-- Remaining characters counter -->
+        <span class="chars" id="chars">
+          500 left
+        </span>
+        <!-- Button submits comment -->
+        <button class="post" onclick="post()">
+          Post Comment
+        </button>
       </div>
     </div>
-
+    <!-- ==============================================
+         COMMENT FEED
+         JavaScript inserts comments here
+    ================================================== -->
     <div id="feed"></div>
   </div>
-
+  <!-- =================================================
+       RIGHT SIDEBAR
+       Contains extra match information
+  ================================================== -->
   <aside class="sidebar">
+    <!-- ================= HEAD TO HEAD CARD ================= -->
     <div class="scard">
-      <h3>Head to Head</h3>
-      <div class="srow"><span>Arsenal Wins</span><span style="color:#e01020">95</span></div>
-      <div class="srow"><span>Draws</span><span>49</span></div>
-      <div class="srow"><span>Everton Wins</span><span>62</span></div>
-      <div class="srow"><span>Possession</span><span>63% – 37%</span></div>
-      <div class="srow"><span>xG</span><span>2.8 – 0.9</span></div>
+      <!-- Card heading -->
+      <h3>
+        Head to Head
+      </h3>
+      <!-- Arsenal wins record -->
+      <div class="srow">
+        <span>Arsenal Wins</span>
+        <span style="color:#e01020">
+          95
+        </span>
+      </div>
+      <!-- Draw record -->
+      <div class="srow">
+        <span>Draws</span>
+        <span>
+          49
+        </span>
+      </div>
+      <!-- Everton wins record -->
+      <div class="srow">
+        <span>Everton Wins</span>
+        <span>
+          62
+        </span>
     </div>
-
-    <div class="scard">
-      <h3>Next Match</h3>
-      <div style="font-size:12px;color:#e01020;margin-bottom:4px">UCL Quarter Final</div>
-      <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;margin-bottom:4px">Arsenal vs Real Madrid</div>
-      <div style="font-size:12px;color:#666">Emirates · 3 June 2025, 20:00</div>
-      <div class="countdown">
-        <div class="cd"><div class="num" id="cd-d">--</div><div class="unit">Days</div></div>
-        <div class="cd"><div class="num" id="cd-h">--</div><div class="unit">Hrs</div></div>
-        <div class="cd"><div class="num" id="cd-m">--</div><div class="unit">Min</div></div>
-        <div class="cd"><div class="num" id="cd-s">--</div><div class="unit">Sec</div></div>
+      <!-- Possession statistics -->
+      <div class="srow">
+        <span>Possession</span>
+        <span>
+          63% – 37%
+        </span>
+      </div>
+      <!-- Expected goals statistics -->
+      <div class="srow">
+        <span>xG</span>
+        <span>
+          2.8 – 0.9
+        </span>
       </div>
     </div>
+    <!-- ================= NEXT MATCH CARD ================= -->
+    <div class="scard">
+      <!-- Card title -->
+      <h3>
+        Next Match
+      </h3>
+      <!-- Competition -->
+      <div style="font-size:12px;color:#e01020;margin-bottom:4px">
+        UCL Quarter Final
+      </div>
+      <!-- Upcoming fixture -->
+      <div style="font-family:'Oswald',sans-serif;font-size:17px;font-weight:700;margin-bottom:4px">
+        Arsenal vs Real Madrid
+      </div>
+      <!-- Match location and date -->
+      <div style="font-size:12px;color:#666">
+        Emirates · 3 June 2025, 20:00
+      </div>
+      <!-- Countdown timer -->
+      <div class="countdown">
+        <!-- Days remaining -->
+        <div class="cd">
+          <div class="num" id="cd-d">--</div>
+          <div class="unit">Days</div>
+        </div>
+        <!-- Hours remaining -->
+        <div class="cd">
+          <div class="num" id="cd-h">--</div>
+          <div class="unit">Hrs</div>
+        </div>
+        <!-- Minutes remaining -->
+        <div class="cd">
+          <div class="num" id="cd-m">--</div>
+          <div class="unit">Min</div>
+        </div>
+        <!-- Seconds remaining -->
+        <div class="cd">
+          <div class="num" id="cd-s">--</div>
+          <div class="unit">Sec</div>
+        </div>
+      </div>
+    </div>
+    <!-- ================= COMMENTS STATISTICS CARD ================= -->
 
     <div class="scard">
-      <h3>Comments</h3>
-      <div class="srow"><span>Total</span><span id="count" style="color:#e01020">4</span></div>
-      <div class="srow"><span>Most Active</span><span>GoalThirsty</span></div>
+      <!-- Card title -->
+      <h3>
+        Comments
+      </h3>
+      <!-- Total number of comments -->
+      <div class="srow">
+        <span>Total</span>
+        <span id="count" style="color:#e01020">
+          4
+        </span>
+      </div>
+      <!-- Most active commenter -->
+      <div class="srow">
+        <span>
+          Most Active
+        </span>
+        <span>
+          GoalThirsty
+        </span>
+      </div>
     </div>
   </aside>
-</div>
 
+
+</div>
 <script>
+  // Initial comments displayed on the page
   const comments = [
-    { init:'GT', name:'GoalThirsty',    time:'2m ago',  text:'Saka was ELECTRIC. That first goal — cut inside and curled it top corner. Cinema.' },
-    { init:'NE', name:'NorthLondonRed', time:'14m ago', text:'Ødegaard bossed midfield completely. Everton couldn\'t get near him. Captain fantastic.' },
-    { init:'AG', name:'ArsenalGooner',  time:'28m ago', text:'3 points, Martinelli on the scoresheet. Happy days. Now focus on Madrid.' },
-    { init:'JK', name:'JerseyKid',      time:'45m ago', text:'Jesus still wasteful. Need to be more clinical against Real Madrid next week.' },
+    {
+      init: 'GT',
+      name: 'GoalThirsty',
+      time: '2m ago',
+      text: 'Saka was ELECTRIC. That first goal — cut inside and curled it top corner. Cinema.'
+    },
+    {
+      init: 'NE',
+      name: 'NorthLondonRed',
+      time: '14m ago',
+      text: 'Ødegaard bossed midfield completely. Everton couldn\'t get near him. Captain fantastic.'
+    },
+    {
+      init: 'AG',
+      name: 'ArsenalGooner',
+      time: '28m ago',
+      text: '3 points, Martinelli on the scoresheet. Happy days. Now focus on Madrid.'
+    },
+    {
+      init: 'JK',
+      name: 'JerseyKid',
+      time: '45m ago',
+      text: 'Jesus still wasteful. Need to be more clinical against Real Madrid next week.'
+    },
   ];
 
+  // Display all comments on the page
   function render() {
     document.getElementById('feed').innerHTML = comments.map(c => `
       <div class="comment">
@@ -152,38 +326,73 @@
           </div>
         </div>
         <div class="comment-body">${c.text}</div>
-        <button class="like-btn" onclick="this.style.color='#e01020'">♥ Like</button>
+        <button class="like-btn" onclick="this.style.color='#e01020'">
+          ♥ Like
+        </button>
       </div>
     `).join('');
+
+    // Update comment count
     document.getElementById('count').textContent = comments.length;
   }
 
+  // Update the remaining character count
   function updateChars() {
     const ta = document.getElementById('input');
-    document.getElementById('chars').textContent = (500 - ta.value.length) + ' left';
+    document.getElementById('chars').textContent =
+      (500 - ta.value.length) + ' left';
   }
 
+  // Add a new comment
   function post() {
     const ta = document.getElementById('input');
     const text = ta.value.trim();
+
+    // Don't post empty comments
     if (!text) return;
-    comments.unshift({ init:'ME', name:'You', time:'Just now', text });
+
+    // Add new comment to the top of the list
+    comments.unshift({
+      init: 'ME',
+      name: 'You',
+      time: 'Just now',
+      text
+    });
+
+    // Refresh the comments
     render();
+
+    // Clear the textbox
     ta.value = '';
+
+    // Reset character counter
     updateChars();
   }
 
+  // Update countdown timer
   function tick() {
     const diff = new Date('2025-06-03T20:00:00+01:00') - Date.now();
+
     if (diff <= 0) return;
-    document.getElementById('cd-d').textContent = String(Math.floor(diff / 86400000)).padStart(2, '0');
-    document.getElementById('cd-h').textContent = String(Math.floor(diff % 86400000 / 3600000)).padStart(2, '0');
-    document.getElementById('cd-m').textContent = String(Math.floor(diff % 3600000 / 60000)).padStart(2, '0');
-    document.getElementById('cd-s').textContent = String(Math.floor(diff % 60000 / 1000)).padStart(2, '0');
+
+    document.getElementById('cd-d').textContent =
+      String(Math.floor(diff / 86400000)).padStart(2, '0');
+
+    document.getElementById('cd-h').textContent =
+      String(Math.floor(diff % 86400000 / 3600000)).padStart(2, '0');
+
+    document.getElementById('cd-m').textContent =
+      String(Math.floor(diff % 3600000 / 60000)).padStart(2, '0');
+
+    document.getElementById('cd-s').textContent =
+      String(Math.floor(diff % 60000 / 1000)).padStart(2, '0');
   }
 
+  // Run when the page loads
   render();
   tick();
+
+  // Update the countdown every second
   setInterval(tick, 1000);
 </script>
 </body>
