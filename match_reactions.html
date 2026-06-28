@@ -329,30 +329,7 @@
       { init: "JK", name: "JerseyKid", time: "45m ago", text: "Jesus is still a bit wasteful in front of goal. Missed two sitters. We need to be clinical if we want to beat Real Madrid next week." },
     ];
 
-    function renderReactions(list) {
-      const container = document.getElementById('reactions-list');
-      container.innerHTML = '';
-      list.forEach(r => {
-        const card = document.createElement('div');
-        card.className = 'reaction-card';
-        card.innerHTML = `
-          <div class="rc-header">
-            <div class="rc-avatar">${r.init}</div>
-            <div class="rc-meta">
-              <div class="username">${r.name}</div>
-              <div class="timestamp">${r.time}</div>
-            </div>
-          </div>
-          <div class="rc-body">${r.text}</div>
-          <div class="rc-actions">
-            <button class="rc-action-btn" onclick="likeReaction(this)">♥ Like</button>
-            <button class="rc-action-btn">↩ Reply</button>
-            <button class="rc-action-btn">⚑ Report</button>
-          </div>`;
-        container.appendChild(card);
-      });
-      document.getElementById('comment-count').textContent = list.length;
-    }
+
 
     renderReactions(seedReactions);
 // like button for reactions
