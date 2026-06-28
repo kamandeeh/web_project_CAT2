@@ -1,117 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign Up – The Cannon Post</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
 <style>
-  /* Base */
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #111; color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; display: flex; flex-direction: column; }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-  /* Top logo bar */
-  header { background: #0a0a0a; border-bottom: 3px solid #e01020; padding: 20px 24px; text-align: center; }
-  header a { font-family: 'Oswald', sans-serif; font-size: 1.5rem; letter-spacing: 2px; color: #fff; text-decoration: none; }
-  header a span { color: #e01020; }
+body{
+    font-family:'Inter',sans-serif;
+    background:#111;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
 
-  /* Center the card vertically */
-  .page { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+header{
+    background:#000;
+    text-align:center;
+    padding:20px;
+    border-bottom:3px solid #e01020;
+}
 
-  /* Signup card */
-  .card { background: #1a1a1a; border: 1px solid #2a2a2a; border-top: 3px solid #e01020; padding: 36px; width: 100%; max-width: 400px; border-radius: 6px; }
-  .card h1 { font-family: 'Oswald', sans-serif; font-size: 28px; font-weight: 700; margin-bottom: 6px; }
-  .card p { color: #666; font-size: 14px; margin-bottom: 20px; }
+header a{
+    text-decoration:none;
+    color:#fff;
+    font-family:'Oswald',sans-serif;
+    font-size:30px;
+}
 
-  /* Perks list shown above the form */
-  .perks { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
-  .perk { font-size: 13px; color: #aaa; }
-  .perk span { color: #e01020; font-weight: 700; margin-right: 6px; }
+header span{
+    color:#e01020;
+}
 
-  /* Form fields */
-  label { display: block; font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: #888; margin-bottom: 6px; }
-  input { width: 100%; background: #222; border: 1px solid #333; color: #fff; font-family: 'Inter', sans-serif; font-size: 14px; padding: 11px 14px; outline: none; margin-bottom: 18px; border-radius: 4px; }
-  input:focus { border-color: #e01020; }
-  input::placeholder { color: #555; }
+.page{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
 
-  /* Terms notice */
-  .terms { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
-  .terms a { color: #e01020; text-decoration: none; }
+.card{
+    width:360px;
+    background:#1a1a1a;
+    padding:30px;
+    border-top:3px solid #e01020;
+}
 
-  /* Submit button */
-  button { width: 100%; background: #e01020; color: #fff; border: none; font-family: 'Oswald', sans-serif; font-size: 17px; font-weight: 700; letter-spacing: 1px; padding: 13px; cursor: pointer; border-radius: 4px; }
-  button:hover { opacity: .85; }
+.card h1{
+    font-family:'Oswald',sans-serif;
+    margin-bottom:10px;
+}
 
-  /* Divider */
-  .divider { display: flex; align-items: center; gap: 12px; margin: 22px 0; }
-  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #2a2a2a; }
-  .divider span { font-size: 12px; color: #555; }
+.card p{
+    color:#888;
+    margin-bottom:20px;
+}
 
-  /* Link to login page */
-  .switch { text-align: center; font-size: 14px; color: #666; }
-  .switch a { color: #e01020; text-decoration: none; font-weight: 600; }
+label{
+    display:block;
+    margin-bottom:5px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-bottom:15px;
+    background:#222;
+    color:#fff;
+    border:1px solid #444;
+}
+
+input:focus{
+    border-color:#e01020;
+    outline:none;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    background:#e01020;
+    color:#fff;
+    cursor:pointer;
+    font-family:'Oswald',sans-serif;
+    font-size:18px;
+}
+
+button:hover{
+    opacity:.9;
+}
+
+.switch{
+    text-align:center;
+    margin-top:20px;
+    color:#888;
+}
+
+.switch a{
+    color:#e01020;
+    text-decoration:none;
+}
 </style>
 </head>
+
 <body>
 
-<!-- Logo header -->
 <header>
-  <a href="./index.html">THE CANNON <span>POST</span></a>
+    <a href="./index.html">THE CANNON <span>POST</span></a>
 </header>
 
 <div class="page">
-  <div class="card">
-    <h1>Join The Cannon Post</h1>
-    <p>Free access to exclusive Arsenal content</p>
+    <div class="card">
 
-    <!-- What you get on signup -->
-    <div class="perks">
-      <div class="perk"><span>✓</span>Match reactions & live threads</div>
-      <div class="perk"><span>✓</span>Tactical analysis deep dives</div>
-      <div class="perk"><span>✓</span>Transfer talk & rumours</div>
+        <h1>Create Account</h1>
+        <p>Join The Cannon Post today.</p>
+
+        <label>Full Name</label>
+        <input type="text" id="name" placeholder="Your name">
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="you@example.com">
+
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="signup()">Create Account</button>
+
+        <div class="switch">
+            Already have an account?
+            <a href="./login.html">Sign In</a>
+        </div>
+
     </div>
-
-    <!-- Name field -->
-    <label for="name">Full Name</label>
-    <input type="text" id="name" placeholder="Your name"/>
-
-    <!-- Email field -->
-    <label for="email">Email</label>
-    <input type="email" id="email" placeholder="you@example.com"/>
-
-    <!-- Password field -->
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Min. 8 characters"/>
-
-    <div class="terms">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</div>
-
-    <button onclick="signup()">Create Account</button>
-
-    <div class="divider"><span>or</span></div>
-
-    <!-- Link back to login page -->
-    <div class="switch">Already have an account? <a href="./login.html">Sign in</a></div>
-  </div>
 </div>
 
 <script>
-  function signup() {
-    const name = document.getElementById('name').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value.trim();
+function signup(){
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-    // Basic validation — in a real app this would call an API
-    if (!name || !email || !password) {
-      alert('Please fill in all fields.');
-      return;
+    if(name==="" || email==="" || password===""){
+        alert("Please fill in all fields.");
+        return;
     }
-    if (password.length < 8) {
-      alert('Password must be at least 8 characters.');
-      return;
-    }
-    alert('Account created! Welcome to The Cannon Post.');
-    window.location.href = './index.html';
-  }
+
+    alert("Account created successfully!");
+    window.location.href="./index.html";
+}
 </script>
+
 </body>
 </html>
