@@ -1,242 +1,134 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Navbar – The Cannon Post</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* Fixed top navbar */
+  .site-navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1050;
+    padding: 1rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(13,13,13,0.97);
+    backdrop-filter: blur(8px);
+    transition: box-shadow .3s;
+  }
+  /* Shadow appears after scrolling */
+  .site-navbar.scrolled { box-shadow: 0 2px 20px rgba(0,0,0,0.5); }
 
-       <style>
-    .site-navbar {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 1050;
-        padding: 1rem 2rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: linear-gradient(to bottom, rgba(13,13,13,0.97), rgba(13,13,13,0.92));
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        transition: background 0.3s, box-shadow 0.3s;
-    }
-    .site-navbar.scrolled {
-        background: rgba(13,13,13,0.99);
-        box-shadow: 0 2px 20px rgba(0,0,0,0.5);
-    }
+  /* Logo */
+  .nav-logo { font-family: 'Oswald', sans-serif; font-size: 1.6rem; letter-spacing: 2px; color: #f5f5f5; text-decoration: none; }
+  .nav-logo span { color: #e01020; }
 
-    .nav-logo {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 1.6rem;
-        letter-spacing: 2px;
-        color: #F5F5F5;
-        text-decoration: none;
-        flex-shrink: 0;
-    }
-    .nav-logo span { color: #EF0107; }
+  /* Nav links */
+  .nav-links { display: flex; align-items: center; gap: .2rem; list-style: none; margin: 0; padding: 0; }
+  .nav-links > li { position: relative; }
+  .nav-links a { color: #888; text-decoration: none; font-family: 'Inter', sans-serif; font-size: .82rem; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: .5rem .9rem; display: block; transition: color .2s; white-space: nowrap; }
+  .nav-links a:hover { color: #f5f5f5; }
+  .nav-links a.active { color: #e01020; }
 
-    .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 0.2rem;
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+  /* Dropdown arrow */
+  .has-dropdown > a::after { content: ''; display: inline-block; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 4px solid #666; margin-left: 5px; vertical-align: middle; transition: transform .2s; }
+  .has-dropdown:hover > a::after { transform: rotate(180deg); border-top-color: #f5f5f5; }
 
-    .nav-links > li { position: relative; }
+  /* Dropdown menu */
+  .dropdown-nav { display: none; position: absolute; top: calc(100% + .5rem); left: 50%; transform: translateX(-50%); background: #1a1a1a; border-top: 2px solid #e01020; border-radius: 0 0 8px 8px; min-width: 190px; box-shadow: 0 12px 30px rgba(0,0,0,.5); list-style: none; padding: .4rem 0; }
+  .has-dropdown:hover .dropdown-nav { display: block; }
+  .dropdown-nav li a { color: #999; font-size: .78rem; letter-spacing: .8px; padding: .6rem 1.2rem; }
+  .dropdown-nav li a:hover { color: #e01020; background: rgba(224,16,32,.07); }
+  .dropdown-nav .divider { height: 1px; background: rgba(255,255,255,.07); margin: .4rem 0; }
 
-    .nav-links a {
-        color: #888;
-        text-decoration: none;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.82rem;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        padding: 0.5rem 0.9rem;
-        display: block;
-        transition: color 0.2s;
-        white-space: nowrap;
-    }
-    .nav-links a:hover { color: #F5F5F5; }
-    .nav-links a.active { color: #EF0107; }
+  /* Sign In button */
+  .nav-cta { background: #e01020; color: white !important; padding: .5rem 1.2rem !important; border-radius: 4px; font-weight: 700 !important; }
+  .nav-cta:hover { opacity: .85; color: white !important; }
 
-    /* Dropdown trigger arrow */
-    .has-dropdown > a::after {
-        content: '';
-        display: inline-block;
-        width: 0; height: 0;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 4px solid #666;
-        margin-left: 5px;
-        vertical-align: middle;
-        transition: transform 0.2s;
-    }
-    .has-dropdown:hover > a::after { transform: rotate(180deg); border-top-color: #F5F5F5; }
+  /* Hamburger — hidden on desktop */
+  .nav-toggle { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+  .nav-toggle span { display: block; width: 24px; height: 2px; background: #f5f5f5; border-radius: 2px; transition: all .3s; }
 
-    /* Dropdown menu */
-    .dropdown-nav {
-        display: none;
-        position: absolute;
-        top: calc(100% + 0.5rem);
-        left: 50%;
-        transform: translateX(-50%);
-        background: #1a1a1a;
-        border-top: 2px solid #EF0107;
-        border-radius: 0 0 8px 8px;
-        min-width: 190px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.5);
-        list-style: none;
-        padding: 0.4rem 0;
-        margin: 0;
-    }
-    .has-dropdown:hover .dropdown-nav { display: block; }
+  body { padding-top: 70px; background: #111; color: #fff; font-family: 'Inter', sans-serif; }
 
-    .dropdown-nav li a {
-        color: #999;
-        font-size: 0.78rem;
-        letter-spacing: 0.8px;
-        padding: 0.6rem 1.2rem;
-    }
-    .dropdown-nav li a:hover {
-        color: #EF0107;
-        background: rgba(239,1,7,0.07);
-    }
-    .dropdown-nav .divider {
-        height: 1px;
-        background: rgba(255,255,255,0.07);
-        margin: 0.4rem 0;
-    }
-
-    /* Subscribe CTA */
-    .nav-cta {
-        background: #EF0107;
-        color: white !important;
-        padding: 0.5rem 1.2rem !important;
-        border-radius: 4px;
-        font-weight: 700 !important;
-        transition: background 0.2s !important;
-    }
-    .nav-cta:hover { background: #c8000a; color: white !important; }
-
-    /* Mobile toggle */
-    .nav-toggle {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        padding: 4px;
-        background: none;
-        border: none;
-    }
-    .nav-toggle span {
-        display: block;
-        width: 24px;
-        height: 2px;
-        background: #F5F5F5;
-        border-radius: 2px;
-        transition: all 0.3s;
-    }
-
-    body { padding-top: 70px; }
-
-    @media (max-width: 768px) {
-        .nav-toggle { display: flex; }
-        .nav-links {
-            display: none;
-            position: absolute;
-            top: 100%;
-            left: 0; right: 0;
-            background: #0D0D0D;
-            flex-direction: column;
-            align-items: stretch;
-            gap: 0;
-            padding: 1rem 0;
-            border-top: 2px solid #EF0107;
-        }
-        .nav-links.open { display: flex; }
-        .nav-links a { padding: 0.75rem 1.5rem; }
-        .dropdown-nav {
-            position: static;
-            transform: none;
-            box-shadow: none;
-            background: #111;
-            border-top: none;
-            border-left: 2px solid #EF0107;
-            margin-left: 1.5rem;
-            border-radius: 0;
-            display: none !important;
-        }
-        .has-dropdown.open-mobile .dropdown-nav { display: block !important; }
-        .has-dropdown > a::after { float: right; margin-top: 6px; }
-    }
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-links { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #0d0d0d; flex-direction: column; align-items: stretch; gap: 0; padding: 1rem 0; border-top: 2px solid #e01020; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: .75rem 1.5rem; }
+    .dropdown-nav { position: static; transform: none; box-shadow: none; background: #111; border-top: none; border-left: 2px solid #e01020; margin-left: 1.5rem; border-radius: 0; display: none !important; }
+    .has-dropdown.open-mobile .dropdown-nav { display: block !important; }
+    .has-dropdown > a::after { float: right; margin-top: 6px; }
+  }
 </style>
+</head>
 <body>
 
-
 <nav class="site-navbar" id="siteNavbar">
-    <a class="nav-logo" href="#">THE CANNON <span>POST</span></a>
+  <a class="nav-logo" href="./index.html">THE CANNON <span>POST</span></a>
 
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-        <span></span><span></span><span></span>
-    </button>
+  <!-- Mobile hamburger button -->
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
 
-    <ul class="nav-links" id="navLinks">
-        <li><a href="./" class="active">Home</a></li>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="./index.html" class="active">Home</a></li>
+    <li><a href="./news.html">News</a></li>
 
-        <li><a href="./news.html">News</a></li>
+    <!-- Dropdown: Videos -->
+    <li class="has-dropdown">
+      <a href="#">Videos</a>
+      <ul class="dropdown-nav">
+        <li><a href="./match-reactions.html">Match Reactions</a></li>
+        <li><a href="./tactical-analysis.html">Tactical Analysis</a></li>
+        <li><a href="./transfer-talk.html">Transfer Talk</a></li>
+        <li><div class="divider"></div></li>
+        <li><a href="#">All Videos</a></li>
+      </ul>
+    </li>
 
-        <li class="has-dropdown">
-            <a href="#">Videos</a>
-            <ul class="dropdown-nav">
-                <li><a href="#">Match Reactions</a></li>
-                <li><a href="#">Tactical Analysis</a></li>
-                <li><a href="#">Transfer Talk</a></li>
-                <li><div class="divider"></div></li>
-                <li><a href="#">All Videos</a></li>
-            </ul>
-        </li>
+    <!-- Dropdown: More -->
+    <li class="has-dropdown">
+      <a href="#">More</a>
+      <ul class="dropdown-nav">
+        <li><a href="#">Fixtures & Results</a></li>
+        <li><a href="#">Community</a></li>
+        <li><div class="divider"></div></li>
+        <li><a href="./aboutUs.html">About Us</a></li>
+      </ul>
+    </li>
 
-        <li class="has-dropdown">
-            <a href="#">More</a>
-            <ul class="dropdown-nav">
-                <li><a href="#">Fixtures & Results</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Shopping</a></li>
-                <li><div class="divider"></div></li>
-                <li><a href="./aboutUs.html">About Us</a></li>
-            </ul>
-        </li>
-
-        <li><a href="#" class="nav-cta">Subscribe</a></li>
-    </ul>
+    <!-- Sign In links to login page -->
+    <li><a href="./login.html" class="nav-cta">Sign In</a></li>
+  </ul>
 </nav>
 
 <script>
-    // Scroll effect
-    const navbar = document.getElementById('siteNavbar');
-    window.addEventListener('scroll', () => {
-        navbar.classList.toggle('scrolled', window.scrollY > 40);
-    });
+  // Add shadow to navbar on scroll
+  const navbar = document.getElementById('siteNavbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
 
-    // Mobile toggle
-    document.getElementById('navToggle').addEventListener('click', () => {
-        document.getElementById('navLinks').classList.toggle('open');
-    });
+  // Toggle mobile menu open/close
+  document.getElementById('navToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
 
-    // Mobile dropdowns
-    document.querySelectorAll('.has-dropdown > a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                e.preventDefault();
-                this.parentElement.classList.toggle('open-mobile');
-            }
-        });
+  // Mobile dropdown: toggle on tap instead of hover
+  document.querySelectorAll('.has-dropdown > a').forEach(link => {
+    link.addEventListener('click', function(e) {
+      if (window.innerWidth <= 768) {
+        e.preventDefault();
+        this.parentElement.classList.toggle('open-mobile');
+      }
     });
-</script> 
+  });
+</script>
 </body>
 </html>
